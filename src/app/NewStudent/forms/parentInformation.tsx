@@ -29,7 +29,7 @@ export default function parentInformation() {
                     </span>
                     <span className='col-span-3'>
                         <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
-                        <input type="text" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
+                        <input type="number" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
                     </span>
                 </div>
             </div>
@@ -51,7 +51,7 @@ export default function parentInformation() {
                     </span>
                     <span className='col-span-3'>
                         <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
-                        <input type="text" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
+                        <input type="number" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
                     </span>
                 </div>
             </div>
@@ -73,7 +73,7 @@ export default function parentInformation() {
                     </span>
                     <span className='col-span-3'>
                         <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
-                        <input type="text" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
+                        <input type="number" className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} />
                     </span>
                 </div>
             </div>
