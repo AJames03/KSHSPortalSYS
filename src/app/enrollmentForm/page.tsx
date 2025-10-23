@@ -46,15 +46,15 @@ export default function Page() {
                 <label>SENIOR HIGH SCHOOL</label>
                 
                 <div className="flex flex-wrap bg-white px-2 py-1 text-black justify-center items-center rounded-md max-w-xs sm:max-w-sm lg:max-w-md">
-                  <label className={`${poppins.className} text-amber-600 text-xs sm:text-sm lg:text-base`}>STEM</label>
+                  <label className={`${poppins.className} text-amber-600 text-[12px] sm:text-sm lg:text-base`}>STEM</label>
                   <i className="bi bi-dot text-xs sm:text-sm lg:text-base"></i>
-                  <label className={`${poppins.className} text-green-600 text-xs sm:text-sm lg:text-base`}>ABM</label>
+                  <label className={`${poppins.className} text-green-600 text-[10px] sm:text-sm lg:text-base`}>ABM</label>
                   <i className="bi bi-dot text-xs sm:text-sm lg:text-base"></i>
-                  <label className={`${poppins.className} text-blue-700 text-xs sm:text-sm lg:text-base`}>TVL-ICT</label>
+                  <label className={`${poppins.className} text-blue-700 text-[10px] sm:text-sm lg:text-base`}>TVL-ICT</label>
                   <i className="bi bi-dot text-xs sm:text-sm lg:text-base"></i>
-                  <label className={`${poppins.className} text-green-800 text-xs sm:text-sm lg:text-base`}>HUMSS</label>
+                  <label className={`${poppins.className} text-green-800 text-[10px] sm:text-sm lg:text-base`}>HUMSS</label>
                   <i className="bi bi-dot text-xs sm:text-sm lg:text-base"></i>
-                  <label className={`${poppins.className} text-orange-500 text-xs sm:text-sm lg:text-base`}>ALS</label>
+                  <label className={`${poppins.className} text-orange-500 text-[10px] sm:text-sm lg:text-base`}>ALS</label>
                 </div>
 
 
@@ -69,7 +69,7 @@ export default function Page() {
                   New Student Enrollment
                 </button>
               </Link>
-              <Link href="/NewStudent">
+              <Link href="/ALS">
                 <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-md w-full sm:w-64 lg:w-72 cursor-pointer">
                   Alternative Learning System
                 </button>
@@ -77,7 +77,7 @@ export default function Page() {
             </div>
 
 
-            <h1 className={`${poppins.className} sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
+            <h1 className={`${poppins.className} text-[12px] sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
               <TypingAnimation 
               text="Welcome to Kasiglahan Village Senior High School! Get ready to start your journey with us—new students, gather your important documents for a smooth enrollment, and ALS students, connect with your coordinator to kickstart your learning adventure. Let's make this school year amazing together!" 
               speed={50} />

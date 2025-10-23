@@ -8,26 +8,24 @@ const poppins = Poppins({
   style: ['normal', 'italic'],
 });
 
-interface SNEPInfoProps {
+interface PWDInfoProps {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
+export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
   // ✅ Universal handleChange with combine logic
   const handleChange =
     (field: string) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const value = e.target.value;
 
-      // Temporarily update snepInfo
-      const updatedSnepInfo = { ...formData.snepInfo, [field]: value };
+      const updatedPwdInfo = { ...formData.pwdInfo, [field]: value };
 
-      // 🧠 Combine logic for one column value (SNEP)
-      const choice = updatedSnepInfo.snepChoice || '';
-      const option = updatedSnepInfo.snepOption || '';
-      const sub = updatedSnepInfo.subOption || '';
-      const pwd = updatedSnepInfo.pwdID || '';
+      const choice = updatedPwdInfo.pwdChoice || '';
+      const option = updatedPwdInfo.pwdOption || '';
+      const sub = updatedPwdInfo.subOption || '';
+      const pwd = updatedPwdInfo.pwdID || '';
 
       let combined = '';
 
@@ -35,18 +33,17 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
       else if (sub) combined = `${option} (${sub})`;
       else if (option) combined = option;
 
-      // Update formData with combined SNEP
       setFormData({
         ...formData,
-        snepInfo: {
-          ...updatedSnepInfo,
-          SNEP: combined,
+        pwdInfo: {
+          ...updatedPwdInfo,
+          PWD: combined,
         },
       });
     };
 
   // a1. With Diagnosis
-  const a1Options = [
+  const aOptions = [
     'Attention Deficit Hyperactivity Disorder',
     'Autism Spectrum Disorder',
     'Cerebral Palsy',
@@ -61,58 +58,46 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
     'Visual Impairment',
   ];
 
-  // a2. With Manifestation
-  const a2Options = [
-    'Difficulty in Applying Knowledge',
-    'Difficulty in Communicating',
-    'Difficulty in Displaying Interpersonal Behavior (Emotional and Behavioral)',
-    'Difficulty in Hearing',
-    'Difficulty in Mobility (Walking, Climbing, and Grasping)',
-    'Difficulty in Performing Adaptive Skills (Self-Care)',
-    'Difficulty in Remembering, Concentrating, Paying Attention and Understanding',
-    'Difficulty in Seeing',
-  ];
 
   const subSHP = ['Cancer', 'Non-Cancer'];
   const subVI = ['Blind', 'Low Vision'];
 
-  const snepChoice = formData.snepInfo?.snepChoice || '';
-  const snepOption = formData.snepInfo?.snepOption || '';
-  const subOption = formData.snepInfo?.subOption || '';
-  const pwdID = formData.snepInfo?.pwdID || '';
+  const pwdChoice = formData.pwdInfo?.pwdChoice || '';
+  const pwdOption = formData.pwdInfo?.pwdOption || '';
+  const subOption = formData.pwdInfo?.subOption || '';
+  const pwdID = formData.pwdInfo?.pwdID || '';
 
   return (
     <div className="w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 p-2 sm:m-5 sm:p-5 bg-gray-100 shadow-gray-400 shadow-lg">
-      {/* 🔹 Question: Is learner under SNEP? */}
       <span className="flex flex-col gap-2 font-medium text-center">
-        <label>Is the Learner under the Special Needs Education Program?</label>
+        <label>Is the Learner PWD?</label>
         <span className="flex gap-2 justify-center items-center">
           <input
             type="radio"
             className="accent-blue-700"
-            name="snepChoice"
+            name="pwdChoice"
             value="Yes"
-            checked={snepChoice === 'Yes'}
-            onChange={handleChange('snepChoice')}
+            checked={pwdChoice === 'Yes'}
+            onChange={handleChange('pwdChoice')}
           />
           <label>Yes</label>
 
           <input
             type="radio"
             className="accent-blue-700"
-            name="snepChoice"
+            name="pwdChoice"
             value="No"
-            checked={snepChoice === 'No'}
+            checked={pwdChoice === 'No'}
             onChange={(e) => {
-              handleChange('snepChoice')(e);
+              handleChange('pwdChoice')(e);
               setFormData({
                 ...formData,
-                snepInfo: {
-                  snepChoice: 'No',
-                  snepOption: '',
+                pwdInfo: {
+                  pwdChoice: 'No',
+                  pwdOption: '',
                   subOption: '',
                   pwdID: '',
-                  SNEP: 'None',
+                  PWD: 'None',
                 },
               });
             }}
@@ -121,7 +106,7 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
         </span>
       </span>
 
-      {snepChoice === 'Yes' && (
+      {pwdChoice === 'Yes' && (
         <div className="border-t p-2 flex flex-col gap-5">
           <p className={`${poppins.className} font-bold text-[clamp(0.8rem,2vw,1.2rem)]`}>
             Check Only 1, either from a1 or a2
@@ -133,15 +118,15 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
           </p>
 
           <div className="sm:grid sm:grid-cols-2 gap-4 p-2">
-            {a1Options.map((option) => (
+            {aOptions.map((option) => (
               <label key={option} className="flex gap-2 items-center text-[14px]">
                 <input
                   type="radio"
                   className="accent-blue-700"
                   name="a1"
                   value={option}
-                  checked={snepOption === option}
-                  onChange={handleChange('snepOption')}
+                  checked={pwdOption === option}
+                  onChange={handleChange('pwdOption')}
                 />
                 {option}
               </label>
@@ -149,7 +134,7 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
           </div>
 
           {/* 🔹 Sub-options for SHP */}
-          {snepOption === 'Special Health Problems/Chronic Diseases' && (
+          {pwdOption === 'Special Health Problems/Chronic Diseases' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
               <p className="italic text-gray-500 font-medium">
                 If Special Health Problem, specify:
@@ -171,7 +156,7 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
           )}
 
           {/* 🔹 Sub-options for VI */}
-          {snepOption === 'Visual Impairment' && (
+          {pwdOption === 'Visual Impairment' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
               <p className="italic text-gray-500 font-medium">
                 If Visual Impairment, specify:
@@ -197,21 +182,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             a2. With Manifestation:
           </p>
 
-          <div className="sm:grid sm:grid-cols-2 gap-4 p-2">
-            {a2Options.map((option) => (
-              <label key={option} className="flex gap-2 items-center text-[14px]">
-                <input
-                  type="radio"
-                  className="accent-blue-700"
-                  name="a2"
-                  value={option}
-                  checked={snepOption === option}
-                  onChange={handleChange('snepOption')}
-                />
-                {option}
-              </label>
-            ))}
-          </div>
 
           {/* 🔹 PWD ID Section */}
           <div className="flex flex-col">
@@ -246,7 +216,7 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
         </div>
       )}
 
-      {snepChoice === 'No' && (
+      {pwdChoice === 'No' && (
         <p className={`${poppins.className} text-[14px] text-red-800 italic`}>
           * Please Proceed to the next form *
         </p>

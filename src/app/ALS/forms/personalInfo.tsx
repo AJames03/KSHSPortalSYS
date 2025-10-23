@@ -15,6 +15,19 @@ interface PersonalInfoProps {
 
 export default function PersonalInfo({ formData, setFormData }: PersonalInfoProps) {
 
+    useEffect(() => {
+        if (!formData.personalInfo?.date) {
+          const date = new Date().toISOString().split("T")[0];
+          setFormData({
+            ...formData,
+            personalInfo: {
+              ...formData.personalInfo,
+              date: date,
+            },
+          });
+        }
+      }, []);
+
     const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({
         ...formData,
@@ -25,14 +38,27 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
 
   return (
     <div className='w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 m-2 sm:p-5'>
-        <header className={`${poppins.className} text-[clamp(0.8rem,2vw,1.2rem)] bg-gray-100 shadow-gray-400 shadow-lg rounded-lg flex flex-col gap-5 p-5`}>
-            <p>PSA Birth Certificate No. (if available upon registration):</p>
-            <input 
-                className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b w-full' 
-                type="text" 
-                value={formData.personalInfo.psa}
-                onChange={handleChange('psa')} 
-            />
+        <header className={`${poppins.className} sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] bg-gray-100 shadow-gray-400 shadow-lg rounded-lg flex flex-col gap-5 p-5`}>
+            <span>
+                <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Date</p>
+                <input 
+                    className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
+                    type="date" 
+                    value={formData.personalInfo?.date || ''}
+                    readOnly
+                    onChange={handleChange('date')}
+                />
+            </span>
+
+            <span>
+                <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>LRN Number</p>
+                <input 
+                    className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
+                    type="number" 
+                    value={formData.personalInfo.lrn}
+                    onChange={handleChange('lrn')}
+                />
+            </span>
         </header>
 
         <div className='flex flex-col gap-2 font-medium bg-gray-100 rounded-lg p-5 shadow-gray-400 shadow-lg'>

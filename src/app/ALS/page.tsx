@@ -7,25 +7,23 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { supabase } from '@/lib/supabaseClient';
 import { motion, AnimatePresence } from "framer-motion";
 
-import EnrollmentInfo from "@/app/NewStudent/forms/enrollmentInfo";
-import PersonalInfo from "@/app/NewStudent/forms/personalInfo";
-import ParentInfo from "@/app/NewStudent/forms/parentInformation";
-import SNEPInfo from "@/app/NewStudent/forms/SNEPInfo";
-import ReturnRegular from "@/app/NewStudent/forms/returnRegular";
-import DistanceLearning from "@/app/NewStudent/forms/distanceLearning";
+
+import PersonalInfo from "@/app/ALS/forms/personalInfo";
+import ParentInfo from "@/app/ALS/forms/parentInformation";
+import PWDInfo from "@/app/ALS/forms/pwdInfo";
+import EducationalInfo from "@/app/ALS/forms/educationalInfo";
+import CLC from "@/app/ALS/forms/clc";
+import DistanceLearning from "@/app/ALS/forms/distanceLearning"
 import { g } from 'motion/react-client';
+import { time } from 'console';
 
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
 
 const initialFormData = {
-  enrollmentInfo: { 
-    lrn: "", 
-    gradeLevel: "", 
-    schoolYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}` 
-  },
   personalInfo: {
-    psa: "",
+    lrn: "",
+    date: "",
     lname: "",
     fname: "",
     mname: "",
@@ -66,18 +64,22 @@ const initialFormData = {
     guardianMN: "",
     guardianCN: "",
   },
-  snepInfo: {
-    SNEP: "",
+  pwdInfo: {
+    PWD: "",
     pwdID: "",
   },
-  returnRegular: {
-    rlGradeLevelComplete: "",
-    rlLastSYComplete: "",
-    rlLastSchoolAtt: "",
-    rlSchoolID: "",
-    semester: "",
-    track: "",
-    strand: "",
+  educationalInfo: {
+    education_information: "",
+    OSY: "",
+    als_attended: "",
+    program_status: "",
+  },
+  clc: {
+    kms: '',
+    hour: '',
+    transportation: '',
+    day: '',
+    time: '',
   },
   distanceLearning: {
     selectedOptions: [],
@@ -108,7 +110,7 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.enrollmentInfo.lrn || !formData.enrollmentInfo.gradeLevel) {
+    if (!formData.personalInfo.lrn) {
       setNotification({ 
         message: "Please, make sure that your enrollment information is filled up.", 
         type: "error" 
@@ -136,10 +138,8 @@ export default function Page() {
       }
 
       return {
-        lrn: cleanString(data.enrollmentInfo.lrn),
-        gradeLevel: cleanString(data.enrollmentInfo.gradeLevel),
-        schoolYear: cleanString(data.enrollmentInfo.schoolYear),
-        psa: cleanString(data.personalInfo.psa),
+        lrn: cleanString(data.personalInfo.lrn),
+        date: cleanDate(data.personalInfo.date),
         lname: toProperCase(cleanString(data.personalInfo.lname)),
         fname: toProperCase(cleanString(data.personalInfo.fname)),
         mname: toProperCase(cleanString(data.personalInfo.mname)),
@@ -177,15 +177,17 @@ export default function Page() {
         guardianFN: toProperCase(cleanString(data.parentInfo.guardianFN)),
         guardianMN: toProperCase(cleanString(data.parentInfo.guardianMN)),
         guardianCN: toProperCase(cleanString(data.parentInfo.guardianCN)),
-        SNEP: toProperCase(cleanString(data.snepInfo.SNEP)),
-        pwdID: toProperCase(cleanString(data.snepInfo.pwdID)),
-        rlGradeLevelComplete: toProperCase(cleanString(data.returnRegular.rlGradeLevelComplete)),
-        rlLastSYComplete: toProperCase(cleanString(data.returnRegular.rlLastSYComplete)),
-        rlLastSchoolAtt: toProperCase(cleanString(data.returnRegular.rlLastSchoolAtt)),
-        rlSchoolID: toProperCase(cleanString(data.returnRegular.rlSchoolID)),
-        semester: toProperCase(cleanString(data.returnRegular.semester)),
-        track: cleanString(data.returnRegular.track),
-        strand: cleanString(data.returnRegular.strand),
+        pwd: toProperCase(cleanString(data.pwdInfo.PWD)),
+        education_information: toProperCase(cleanString(data.educationalInfo.education_information)),
+        OSY: toProperCase(cleanString(data.educationalInfo.OSY)),
+        als_attended: toProperCase(cleanString(data.educationalInfo.als_attended)),
+        complete_program: toProperCase(cleanString(data.educationalInfo.program_status)),
+        pwdID: toProperCase(cleanString(data.pwdInfo.pwdID)),
+        kms: toProperCase(cleanString(data.clc.kms)),
+        hour: toProperCase(cleanString(data.clc.hour)),
+        transportation: toProperCase(cleanString(data.clc.transportation)),
+        day: toProperCase(cleanString(data.clc.day)),
+        time: toProperCase(cleanString(data.clc.time)),
         distanceLearning: (data.distanceLearning?.selectedOptions || []).map((opt: string) =>
           toProperCase(cleanString(opt))
         ),
@@ -197,7 +199,7 @@ export default function Page() {
       const cleanedData = cleanData(formData);
 
       const { data, error: supabaseError } = await supabase
-        .from('NewStudents')
+        .from('ALS')
         .insert([cleanedData]);
 
       if (supabaseError) {
@@ -227,15 +229,15 @@ export default function Page() {
           <label>KASIGLAHAN VILLAGE</label>
           <label>SENIOR HIGH SCHOOL</label>
           <div className="flex bg-white pl-2 pr-2 text-black justify-center items-center rounded-md">
-            <label className={`${poppins.className} text-[10px] sm:text-sm text-amber-600`}>STEM</label>
+            <label className={`${poppins.className} text-[10px] text-amber-600`}>STEM</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] sm:text-sm text-green-600`}>ABM</label>
+            <label className={`${poppins.className} text-[10px] text-green-600`}>ABM</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] sm:text-sm text-blue-700`}>TVL-ICT</label>
+            <label className={`${poppins.className} text-[10px] text-blue-700`}>TVL-ICT</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] sm:text-sm text-green-800`}>HUMSS</label>
+            <label className={`${poppins.className} text-[10px] text-green-800`}>HUMSS</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] sm:text-sm text-orange-500`}>ALS</label>
+            <label className={`${poppins.className} text-[10px] text-orange-500`}>ALS</label>
           </div>
         </div>
       </div>
@@ -265,12 +267,12 @@ export default function Page() {
         onSubmit={handleSubmit}
         className="flex flex-col w-full h-full items-center justify-center"
       >
-        {currentStep === 1 && <EnrollmentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 2 && <PersonalInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 1 && <PersonalInfo formData={formData} setFormData={setFormData} />}
         {currentStep === 3 && <ParentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 4 && <SNEPInfo  formData={formData} setFormData={setFormData} />}
-        {currentStep === 5 && <ReturnRegular formData={formData} setFormData={setFormData} />}
-        {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+        {currentStep === 4 && <PWDInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 5 && <EducationalInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 6 && <CLC formData={formData} setFormData={setFormData} />}
+        {currentStep === 2 && <DistanceLearning formData={formData} setFormData={setFormData} />}
 
         {/* Navigation */}
         <div className="flex gap-4 mt-4 p-5 w-full sm:w-1/2 justify-center flex-row">
@@ -284,7 +286,7 @@ export default function Page() {
             </button>
           )}
 
-          {currentStep < 6 && (
+          {currentStep < 2 && (
             <button
               type="button"
               onClick={handleNext}
@@ -294,7 +296,7 @@ export default function Page() {
             </button>
           )}
 
-          {currentStep === 6 && (
+          {currentStep === 2 && (
             <button
               type="submit"
               className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-green-700 cursor-pointer"
