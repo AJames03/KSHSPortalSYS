@@ -1,7 +1,7 @@
 'use client';
 import React from 'react'
 import { Poppins } from 'next/font/google';
-import {FormDataType} from '../page';
+import { FormDataType } from '../page';
 
 const poppins = Poppins({
   subsets: ["latin"],
