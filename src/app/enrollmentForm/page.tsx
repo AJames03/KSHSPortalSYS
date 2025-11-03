@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Arvo, Bebas_Neue, Poppins } from 'next/font/google';
+import { Arvo, Poppins } from 'next/font/google';
 import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Link from 'next/link';
@@ -16,8 +16,13 @@ const poppins = Poppins({
   weight: ["200", "400"],
 });
 
+interface TypingAnimationProps {
+  text: string;
+  speed?: number;
+}
+
 // Typing animation component
-function TypingAnimation({ text, speed = 100 }) {
+function TypingAnimation({ text, speed = 100 } : TypingAnimationProps) {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {

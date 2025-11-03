@@ -13,29 +13,124 @@ import ParentInfo from "@/app/NewStudent/forms/parentInformation";
 import SNEPInfo from "@/app/NewStudent/forms/SNEPInfo";
 import ReturnRegular from "@/app/NewStudent/forms/returnRegular";
 import DistanceLearning from "@/app/NewStudent/forms/distanceLearning";
-import { g } from 'motion/react-client';
 
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
 
-const initialFormData = {
+type EnrollmentInfoType = {
+  email: string;
+  schoolYear: string;
+  gradeLevel: string;
+  lrn: string;
+};
+
+type PersonalInfoType = {
+  psa: string;
+  lname: string;
+  fname: string;
+  mname: string;
+  ename: string;
+  bday: string;
+  age: string;
+  sex: string;
+  birthplace: string;
+  religion: string;
+  motherTongue: string;
+  selectIP: string;
+  indigenousPeople: string;
+  select4PS: string;
+  fourPS: string;
+  houseNumber: string;
+  streetName: string;
+  barangay: string;
+  municipality: string;
+  province: string;
+  country: string;
+  zipCode: string;
+  selectAddress: string;
+  pHN: string;
+  pSN: string;
+  pbrgy: string;
+  pMunicipal: string;
+  pProvince: string;
+  pCountry: string;
+  pZipCode: string;
+};
+
+export type ParentInfoType = {
+  fatherLN: string;
+  fatherFN: string;
+  fatherMN: string;
+  fatherCN: string;
+  motherLN: string;
+  motherFN: string;
+  motherMN: string;
+  motherCN: string;
+  guardianLN: string;
+  guardianFN: string;
+  guardianMN: string;
+  guardianCN: string;
+};
+
+export type SnepInfoType = {
+  SNEP: string;
+  pwdID: string;
+  snepChoice: string;
+  snepOption: string;
+  subOption: string;
+};
+
+export type ReturnInfoType = {
+  rlGradeLevelComplete: string,
+  rlLastSYComplete: string,
+  rlLastSchoolAtt: string,
+  rlSchoolID: string,
+  semester: string,
+  track: string,
+  strand: string,
+}
+
+type DistanceInfoType = {
+  selectedOptions: string[],
+};
+
+type EnrollmentStatusType = {
+  enrollment_status: "Pending";
+};
+
+export type FormDataType = {
+  enrollmentInfo: EnrollmentInfoType;
+  personalInfo: PersonalInfoType;
+  parentInfo: ParentInfoType;
+  snepInfo: SnepInfoType;
+  returnRegular: ReturnInfoType;
+  distanceLearning: DistanceInfoType;
+  enrollment_status: EnrollmentStatusType;
+};
+
+
+const initialFormData: FormDataType = {
   enrollmentInfo: { 
     lrn: "", 
     gradeLevel: "", 
-    schoolYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}` 
+    schoolYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+    email: "",
   },
   personalInfo: {
     psa: "",
     lname: "",
     fname: "",
     mname: "",
+    ename: "",
     bday: "",
     age: "",
     sex: "",
     birthplace: "",
     religion: "",
     motherTongue: "",
+    selectIP: "",
     indigenousPeople: "",
+    select4PS: "",
     fourPS: "",
     houseNumber: "",
     streetName: "",
@@ -44,6 +139,7 @@ const initialFormData = {
     province: "",
     country: "",
     zipCode: "",
+    selectAddress: "",
     pHN: "",
     pSN: "",
     pbrgy: "",
@@ -69,6 +165,9 @@ const initialFormData = {
   snepInfo: {
     SNEP: "",
     pwdID: "",
+    snepChoice: "",
+    snepOption: "",
+    subOption: "",
   },
   returnRegular: {
     rlGradeLevelComplete: "",
@@ -82,13 +181,15 @@ const initialFormData = {
   distanceLearning: {
     selectedOptions: [],
   },
-  enrollment_status: "Pending",
+  enrollment_status: {
+    enrollment_status: "Pending"
+  },
 };
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [notification, setNotification] = useState<{ message: string; type: "error" | "success" } | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<FormDataType>(initialFormData);
 
   useEffect(() => {
     if (notification) {
@@ -97,8 +198,58 @@ export default function Page() {
     }
   }, [notification]);
 
+
   const handleNext = () => {
-    if (currentStep < 6) setCurrentStep(currentStep + 1);
+    const missingFields: string[] = [];
+
+    if (currentStep === 1){
+      const { lrn, gradeLevel } = formData.enrollmentInfo;
+      if(!lrn) missingFields.push("LRN Number");
+      if(!gradeLevel) missingFields.push("Grade Level");
+    }
+    if(currentStep === 2){
+      const { lname, fname, mname, bday, age, sex, birthplace, religion, motherTongue, indigenousPeople, fourPS, houseNumber, streetName, barangay, municipality, province, country, zipCode, pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode } = formData.personalInfo;
+      if(!lname) missingFields.push("Last Name");
+      if(!fname) missingFields.push("First Name");
+      if(!mname) missingFields.push("Middle Name");
+      if(!bday) missingFields.push("Birthdate");
+      if(!age) missingFields.push("Age");
+      if(!sex) missingFields.push("Sex");
+      if(!birthplace) missingFields.push("Birthplace");
+      if(!religion) missingFields.push("Religion");
+      if(!motherTongue) missingFields.push("Mother Tongue");
+      if(!indigenousPeople) missingFields.push("Indigenous People");
+      if(!fourPS) missingFields.push("4Ps");
+      if(!houseNumber) missingFields.push("House Number");
+      if(!streetName) missingFields.push("Street Name");
+      if(!barangay) missingFields.push("Barangay");
+      if(!municipality) missingFields.push("Municipality");
+      if(!province) missingFields.push("Province");
+      if(!country) missingFields.push("Country");
+      if(!zipCode) missingFields.push("Zip Code");
+      if (![pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode].every(Boolean)) missingFields.push("Permanent Address");
+    }
+    if(currentStep === 3){
+      const { fatherLN, fatherFN, fatherMN, fatherCN, motherLN, motherFN, motherMN, motherCN, guardianLN, guardianFN, guardianMN, guardianCN } = formData.parentInfo;
+      if(![fatherCN, fatherFN, fatherLN, fatherMN, motherCN, motherFN, motherLN, motherMN, guardianCN, guardianFN, guardianLN, guardianMN].every(Boolean)) missingFields.push("Parent Information");
+    }
+    if(currentStep === 4){
+      const { SNEP } = formData.snepInfo;
+      if(!SNEP) missingFields.push("SNEP");
+    }
+    if(currentStep === 5){
+      const {semester, track, strand } = formData.returnRegular;
+      if(!semester) missingFields.push("Semester");
+      if(!track) missingFields.push("Track");
+      if(!strand) missingFields.push("Strand");
+    }
+
+
+    if(missingFields.length > 0){
+      setNotification ({ message: `Please, make sure that your ${missingFields.join(", ")} is filled up.`, type: "error" });
+      return;
+    }
+    if(currentStep < 6) setCurrentStep(currentStep + 1);
   };
 
   const handlePrevious = () => {
@@ -108,20 +259,13 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.enrollmentInfo.lrn || !formData.enrollmentInfo.gradeLevel) {
-      setNotification({ 
-        message: "Please, make sure that your enrollment information is filled up.", 
-        type: "error" 
-      });
-      return;
-    }
+    
 
-    // ✅ Data Cleaning Utility
     const cleanData = (data: typeof formData) => {
-      const cleanString = (str: any) =>
+      const cleanString = (str: unknown): string =>
         typeof str === "string" ? str.trim().replace(/\s+/g, " ") : "";
 
-      const cleanNumber = (num: any) =>
+      const cleanNumber = (num: unknown): number | null =>
         isNaN(Number(num)) ? null : Number(num);
 
       const cleanDate = (date: string) => {
@@ -139,10 +283,12 @@ export default function Page() {
         lrn: cleanString(data.enrollmentInfo.lrn),
         gradeLevel: cleanString(data.enrollmentInfo.gradeLevel),
         schoolYear: cleanString(data.enrollmentInfo.schoolYear),
+        email: cleanString(data.enrollmentInfo.email),
         psa: cleanString(data.personalInfo.psa),
         lname: toProperCase(cleanString(data.personalInfo.lname)),
         fname: toProperCase(cleanString(data.personalInfo.fname)),
         mname: toProperCase(cleanString(data.personalInfo.mname)),
+        ename: toProperCase(cleanString(data.personalInfo.ename)),
         bday: cleanDate(data.personalInfo.bday),
         age: cleanNumber(data.personalInfo.age),
         sex: cleanString(data.personalInfo.sex),
@@ -151,7 +297,7 @@ export default function Page() {
         motherTongue: toProperCase(cleanString(data.personalInfo.motherTongue)),
         indigenousPeople: toProperCase(cleanString(data.personalInfo.indigenousPeople)),
         fourPS: cleanString(data.personalInfo.fourPS),
-        houseNumber: cleanString(data.personalInfo.houseNumber),
+        houseNumber: toProperCase(cleanString(data.personalInfo.houseNumber)),
         streetName: toProperCase(cleanString(data.personalInfo.streetName)),
         barangay: toProperCase(cleanString(data.personalInfo.barangay)),
         municipality: toProperCase(cleanString(data.personalInfo.municipality)),
@@ -196,7 +342,7 @@ export default function Page() {
     try {
       const cleanedData = cleanData(formData);
 
-      const { data, error: supabaseError } = await supabase
+      const { error: supabaseError } = await supabase
         .from('NewStudents')
         .insert([cleanedData]);
 
@@ -204,12 +350,16 @@ export default function Page() {
         setNotification({ message: "Failed to submit form: " + supabaseError.message, type: "error" });
       } else {
         setNotification({ message: "Form submitted successfully!", type: "success" });
+
         setFormData({ ...initialFormData });
         setCurrentStep(1);
       }
-    } catch (err: any) {
-      setNotification({ message: "❌ Something went wrong: " + JSON.stringify(err), type: "error" });
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : JSON.stringify(err);
+      setNotification({ message: "❌ Something went wrong: " + errorMessage, type: "error" });
     }
+
   };
 
   return (

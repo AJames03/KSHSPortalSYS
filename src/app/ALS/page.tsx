@@ -7,32 +7,131 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { supabase } from '@/lib/supabaseClient';
 import { motion, AnimatePresence } from "framer-motion";
 
-
 import PersonalInfo from "@/app/ALS/forms/personalInfo";
 import ParentInfo from "@/app/ALS/forms/parentInformation";
 import PWDInfo from "@/app/ALS/forms/pwdInfo";
 import EducationalInfo from "@/app/ALS/forms/educationalInfo";
 import CLC from "@/app/ALS/forms/clc";
-import DistanceLearning from "@/app/ALS/forms/distanceLearning"
-import { g } from 'motion/react-client';
-import { time } from 'console';
+import DistanceLearning from "@/app/ALS/forms/distanceLearning";
 
+// Fonts
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
 
-const initialFormData = {
+// --- Types ---
+export interface PersonalInfoType {
+  email: string;
+  lrn: string;
+  date: string;
+  lname: string;
+  fname: string;
+  mname: string;
+  ename: string;
+  cn: string;
+  bday: string;
+  age: number | undefined;
+  sex: string;
+  birthplace: string;
+  religion: string;
+  motherTongue: string;
+  civilStatus: string;
+  indigenousPeople: string;
+  fourPS: string;
+  houseNumber: string;
+  streetName: string;
+  barangay: string;
+  municipality: string;
+  province: string;
+  country: string;
+  zipCode: string;
+  pHN: string;
+  pSN: string;
+  pbrgy: string;
+  pMunicipal: string;
+  pProvince: string;
+  pCountry: string;
+  pZipCode: string;
+  // not deploy in database
+  selectIP: string;
+  select4PS: string;
+  selectAddress: string;
+}
+
+export interface ParentInfoType {
+  fatherLN: string;
+  fatherFN: string;
+  fatherMN: string;
+  fatherCN: string;
+  motherLN: string;
+  motherFN: string;
+  motherMN: string;
+  motherCN: string;
+  guardianLN: string;
+  guardianFN: string;
+  guardianMN: string;
+  guardianCN: string;
+}
+
+export interface PWDInfoType {
+  PWD: string;
+  pwdID: string;
+  // not store in database
+  pwdChoice: string;
+  pwdOption: string;
+  subOption: string;
+}
+
+export interface EducationalInfoType {
+  education_information: string;
+  OSY: string;
+  als_attended: string;
+  complete_program: string;
+  incomplete_reason: string;
+  program_status: string;
+}
+
+export interface CLCType {
+  kms?: string;
+  hour?: string;
+  transport?: string;
+  otherTransport?: string;
+  transportation?: string;
+  day?: string;
+  time?: string;
+}
+
+export interface DistanceLearningType {
+  selectedOptions: string[];
+}
+
+export interface ALSFormData {
+  personalInfo: PersonalInfoType;
+  parentInfo: ParentInfoType;
+  pwdInfo: PWDInfoType;
+  educationalInfo: EducationalInfoType;
+  clc: CLCType;
+  distanceLearning: DistanceLearningType;
+  enrollment_status: "Pending" | "Completed";
+}
+
+// --- Initial Data ---
+const initialFormData: ALSFormData = {
   personalInfo: {
+    email: "",
     lrn: "",
     date: "",
     lname: "",
     fname: "",
     mname: "",
+    ename: "",
+    cn: "",
     bday: "",
-    age: "",
+    age: undefined,
     sex: "",
     birthplace: "",
     religion: "",
     motherTongue: "",
+    civilStatus: "",
     indigenousPeople: "",
     fourPS: "",
     houseNumber: "",
@@ -49,6 +148,10 @@ const initialFormData = {
     pProvince: "",
     pCountry: "",
     pZipCode: "",
+    // not store in DataBase
+    selectIP: "",
+    select4PS: "",
+    selectAddress: "",
   },
   parentInfo: {
     fatherLN: "",
@@ -67,12 +170,19 @@ const initialFormData = {
   pwdInfo: {
     PWD: "",
     pwdID: "",
+    // not store in database
+    pwdChoice: "",
+    pwdOption: "",
+    subOption: "",
   },
   educationalInfo: {
     education_information: "",
     OSY: "",
     als_attended: "",
     program_status: "",
+    // not store in database
+    complete_program: "",
+    incomplete_reason: "",
   },
   clc: {
     kms: '',
@@ -87,11 +197,23 @@ const initialFormData = {
   enrollment_status: "Pending",
 };
 
+export interface ALSFormData {
+  personalInfo: PersonalInfoType;
+  parentInfo: ParentInfoType;
+  pwdInfo: PWDInfoType;
+  educationalInfo: EducationalInfoType;
+  clc: CLCType;
+  distanceLearning: DistanceLearningType;
+  enrollment_status: "Pending" | "Completed";
+}
+
+// --- Component ---
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [notification, setNotification] = useState<{ message: string; type: "error" | "success" } | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<ALSFormData>(initialFormData);
 
+  // Notification timer
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => setNotification(null), 3000);
@@ -99,7 +221,16 @@ export default function Page() {
     }
   }, [notification]);
 
+  // --- Navigation ---
   const handleNext = () => {
+    const missingFields: string[] = [];
+    if (currentStep === 1 && !formData.personalInfo.lrn) missingFields.push("LRN Number");
+
+    if (missingFields.length > 0) {
+      setNotification({ message: `Please fill in: ${missingFields.join(", ")}`, type: "error" });
+      return;
+    }
+
     if (currentStep < 6) setCurrentStep(currentStep + 1);
   };
 
@@ -107,98 +238,103 @@ export default function Page() {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
+  // --- Utilities ---
+  const cleanString = (str: string | undefined) =>
+    typeof str === "string" ? str.trim().replace(/\s+/g, " ") : "";
+
+  const cleanNumber = (num: string | number | undefined) =>
+    isNaN(Number(num)) ? null : Number(num);
+
+  const cleanDate = (date: string) => {
+    const parsed = new Date(date);
+    return isNaN(parsed.getTime()) ? null : parsed.toISOString().split("T")[0];
+  };
+
+  const toProperCase = (str: string) =>
+    str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+
+  // --- Submit ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!formData.personalInfo.lrn) {
-      setNotification({ 
-        message: "Please, make sure that your enrollment information is filled up.", 
-        type: "error" 
+      setNotification({
+        message: "Please fill out your enrollment information.",
+        type: "error",
       });
       return;
     }
 
-    // ✅ Data Cleaning Utility
-    const cleanData = (data: typeof formData) => {
-      const cleanString = (str: any) =>
-        typeof str === "string" ? str.trim().replace(/\s+/g, " ") : "";
+    const cleanData = (data: ALSFormData) => ({
+      lrn: cleanString(data.personalInfo.lrn),
+      date: cleanDate(data.personalInfo.date),
+      lname: toProperCase(cleanString(data.personalInfo.lname)),
+      fname: toProperCase(cleanString(data.personalInfo.fname)),
+      mname: toProperCase(cleanString(data.personalInfo.mname)),
+      ename: toProperCase(cleanString(data.personalInfo.ename)),
+      cn: cleanString(data.personalInfo.cn),
+      civilStatus: toProperCase(cleanString(data.personalInfo.civilStatus)),
+      bday: cleanDate(data.personalInfo.bday),
+      age: cleanNumber(data.personalInfo.age), // <-- number-safe
+      sex: cleanString(data.personalInfo.sex),
+      birthplace: toProperCase(cleanString(data.personalInfo.birthplace)),
+      religion: toProperCase(cleanString(data.personalInfo.religion)),
+      motherTongue: toProperCase(cleanString(data.personalInfo.motherTongue)),
+      indigenousPeople: toProperCase(cleanString(data.personalInfo.indigenousPeople)),
+      fourPS: cleanString(data.personalInfo.fourPS),
+      houseNumber: cleanString(data.personalInfo.houseNumber),
+      streetName: toProperCase(cleanString(data.personalInfo.streetName)),
+      barangay: toProperCase(cleanString(data.personalInfo.barangay)),
+      municipality: toProperCase(cleanString(data.personalInfo.municipality)),
+      province: toProperCase(cleanString(data.personalInfo.province)),
+      country: toProperCase(cleanString(data.personalInfo.country)),
+      zipCode: cleanString(data.personalInfo.zipCode),
+      pHN: cleanString(data.personalInfo.pHN),
+      pSN: cleanString(data.personalInfo.pSN),
+      pbrgy: toProperCase(cleanString(data.personalInfo.pbrgy)),
+      pMunicipal: toProperCase(cleanString(data.personalInfo.pMunicipal)),
+      pProvince: toProperCase(cleanString(data.personalInfo.pProvince)),
+      pCountry: toProperCase(cleanString(data.personalInfo.pCountry)),
+      pZipCode: cleanString(data.personalInfo.pZipCode),
 
-      const cleanNumber = (num: any) =>
-        isNaN(Number(num)) ? null : Number(num);
+      fatherLN: toProperCase(cleanString(data.parentInfo.fatherLN)),
+      fatherFN: toProperCase(cleanString(data.parentInfo.fatherFN)),
+      fatherMN: toProperCase(cleanString(data.parentInfo.fatherMN)),
+      fatherCN: cleanString(data.parentInfo.fatherCN),
+      motherLN: toProperCase(cleanString(data.parentInfo.motherLN)),
+      motherFN: toProperCase(cleanString(data.parentInfo.motherFN)),
+      motherMN: toProperCase(cleanString(data.parentInfo.motherMN)),
+      motherCN: cleanString(data.parentInfo.motherCN),
+      guardianLN: toProperCase(cleanString(data.parentInfo.guardianLN)),
+      guardianFN: toProperCase(cleanString(data.parentInfo.guardianFN)),
+      guardianMN: toProperCase(cleanString(data.parentInfo.guardianMN)),
+      guardianCN: cleanString(data.parentInfo.guardianCN),
 
-      const cleanDate = (date: string) => {
-        const parsed = new Date(date);
-        return isNaN(parsed.getTime()) ? null : parsed.toISOString().split("T")[0];
-      };
+      pwd: toProperCase(cleanString(data.pwdInfo.PWD)),
+      pwdID: cleanString(data.pwdInfo.pwdID),
 
-      const toProperCase = (str: string) => {
-        return str
-        .toLowerCase()
-        .replace(/\b\w/g, (char) => char.toUpperCase());
-      }
+      education_information: toProperCase(cleanString(data.educationalInfo.education_information)),
+      OSY: toProperCase(cleanString(data.educationalInfo.OSY)),
+      als_attended: toProperCase(cleanString(data.educationalInfo.als_attended)),
+      complete_program: toProperCase(cleanString(data.educationalInfo.program_status)),
 
-      return {
-        lrn: cleanString(data.personalInfo.lrn),
-        date: cleanDate(data.personalInfo.date),
-        lname: toProperCase(cleanString(data.personalInfo.lname)),
-        fname: toProperCase(cleanString(data.personalInfo.fname)),
-        mname: toProperCase(cleanString(data.personalInfo.mname)),
-        bday: cleanDate(data.personalInfo.bday),
-        age: cleanNumber(data.personalInfo.age),
-        sex: cleanString(data.personalInfo.sex),
-        birthplace: toProperCase(cleanString(data.personalInfo.birthplace)),
-        religion: toProperCase(cleanString(data.personalInfo.religion)),
-        motherTongue: toProperCase(cleanString(data.personalInfo.motherTongue)),
-        indigenousPeople: toProperCase(cleanString(data.personalInfo.indigenousPeople)),
-        fourPS: cleanString(data.personalInfo.fourPS),
-        houseNumber: cleanString(data.personalInfo.houseNumber),
-        streetName: toProperCase(cleanString(data.personalInfo.streetName)),
-        barangay: toProperCase(cleanString(data.personalInfo.barangay)),
-        municipality: toProperCase(cleanString(data.personalInfo.municipality)),
-        province: toProperCase(cleanString(data.personalInfo.province)),
-        country: toProperCase(cleanString(data.personalInfo.country)),
-        zipCode: toProperCase(cleanString(data.personalInfo.zipCode)),
-        pHN: toProperCase(cleanString(data.personalInfo.pHN)),
-        pSN: toProperCase(cleanString(data.personalInfo.pSN)),
-        pbrgy: toProperCase(cleanString(data.personalInfo.pbrgy)),
-        pMunicipal: toProperCase(cleanString(data.personalInfo.pMunicipal)),
-        pProvince: toProperCase(cleanString(data.personalInfo.pProvince)),
-        pCountry: toProperCase(cleanString(data.personalInfo.pCountry)),
-        pZipCode: toProperCase(cleanString(data.personalInfo.pZipCode)),
-        fatherLN: toProperCase(cleanString(data.parentInfo.fatherLN)),
-        fatherFN: toProperCase(cleanString(data.parentInfo.fatherFN)),
-        fatherMN: toProperCase(cleanString(data.parentInfo.fatherMN)),
-        fatherCN: toProperCase(cleanString(data.parentInfo.fatherCN)),
-        motherLN: toProperCase(cleanString(data.parentInfo.motherLN)),
-        motherFN: toProperCase(cleanString(data.parentInfo.motherFN)),
-        motherMN: toProperCase(cleanString(data.parentInfo.motherMN)),
-        motherCN: toProperCase(cleanString(data.parentInfo.motherCN)),
-        guardianLN: toProperCase(cleanString(data.parentInfo.guardianLN)),
-        guardianFN: toProperCase(cleanString(data.parentInfo.guardianFN)),
-        guardianMN: toProperCase(cleanString(data.parentInfo.guardianMN)),
-        guardianCN: toProperCase(cleanString(data.parentInfo.guardianCN)),
-        pwd: toProperCase(cleanString(data.pwdInfo.PWD)),
-        education_information: toProperCase(cleanString(data.educationalInfo.education_information)),
-        OSY: toProperCase(cleanString(data.educationalInfo.OSY)),
-        als_attended: toProperCase(cleanString(data.educationalInfo.als_attended)),
-        complete_program: toProperCase(cleanString(data.educationalInfo.program_status)),
-        pwdID: toProperCase(cleanString(data.pwdInfo.pwdID)),
-        kms: toProperCase(cleanString(data.clc.kms)),
-        hour: toProperCase(cleanString(data.clc.hour)),
-        transportation: toProperCase(cleanString(data.clc.transportation)),
-        day: toProperCase(cleanString(data.clc.day)),
-        time: toProperCase(cleanString(data.clc.time)),
-        distanceLearning: (data.distanceLearning?.selectedOptions || []).map((opt: string) =>
-          toProperCase(cleanString(opt))
-        ),
-        enrollment_status: "Pending",
-      };
-    };
+      kms: cleanString(data.clc.kms),
+      hour: cleanString(data.clc.hour),
+      transportation: cleanString(data.clc.transportation),
+      day: cleanString(data.clc.day),
+      time: cleanString(data.clc.time),
+
+      distanceLearning: data.distanceLearning.selectedOptions.map(opt =>
+        toProperCase(cleanString(opt))
+      ),
+
+      enrollment_status: "Pending",
+    });
 
     try {
       const cleanedData = cleanData(formData);
 
-      const { data, error: supabaseError } = await supabase
+      const { error: supabaseError } = await supabase
         .from('ALS')
         .insert([cleanedData]);
 
@@ -209,11 +345,18 @@ export default function Page() {
         setFormData({ ...initialFormData });
         setCurrentStep(1);
       }
-    } catch (err: any) {
-      setNotification({ message: "❌ Something went wrong: " + JSON.stringify(err), type: "error" });
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setNotification({ message: "❌ Something went wrong: " + err.message, type: "error" });
+      } else {
+        setNotification({ message: "❌ Something went wrong", type: "error" });
+      }
     }
   };
 
+  
+
+  // --- Render ---
   return (
     <div className="w-full h-full flex flex-col">
       {/* Header */}
@@ -268,11 +411,11 @@ export default function Page() {
         className="flex flex-col w-full h-full items-center justify-center"
       >
         {currentStep === 1 && <PersonalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 3 && <ParentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 4 && <PWDInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 5 && <EducationalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 6 && <CLC formData={formData} setFormData={setFormData} />}
-        {currentStep === 2 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+        {currentStep === 2 && <ParentInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 3 && <PWDInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 4 && <EducationalInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 5 && <CLC formData={formData} setFormData={setFormData} />}
+        {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
 
         {/* Navigation */}
         <div className="flex gap-4 mt-4 p-5 w-full sm:w-1/2 justify-center flex-row">
@@ -286,7 +429,7 @@ export default function Page() {
             </button>
           )}
 
-          {currentStep < 2 && (
+          {currentStep < 6 && (
             <button
               type="button"
               onClick={handleNext}
@@ -296,7 +439,7 @@ export default function Page() {
             </button>
           )}
 
-          {currentStep === 2 && (
+          {currentStep === 6 && (
             <button
               type="submit"
               className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-green-700 cursor-pointer"

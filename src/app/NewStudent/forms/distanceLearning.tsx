@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import { Poppins } from 'next/font/google';
+import { FormDataType } from '../page';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -8,44 +9,43 @@ const poppins = Poppins({
   style: ['normal', 'italic'],
 });
 
+
 interface DistanceLearningProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-};
+  formData: FormDataType;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
+}
 
 export default function DistanceLearning({ formData, setFormData }: DistanceLearningProps) {
-
-  // Ensure selectedOptions is always initialized as an array
   useEffect(() => {
     if (!formData.distanceLearning?.selectedOptions) {
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         distanceLearning: {
-          ...formData.distanceLearning,
+          ...prev.distanceLearning,
           selectedOptions: [],
         }
-      });
+      }));
     }
-  }, []);
+  }, [formData, setFormData]);
 
   const handleChange = (option: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
-
-    let updatedSelections = [...(formData.distanceLearning?.selectedOptions || [])];
+    const updatedSelections = [...(formData.distanceLearning?.selectedOptions || [])];
 
     if (checked) {
       if (!updatedSelections.includes(option)) updatedSelections.push(option);
     } else {
-      updatedSelections = updatedSelections.filter(item => item !== option);
+      const index = updatedSelections.indexOf(option);
+      if (index > -1) updatedSelections.splice(index, 1);
     }
 
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       distanceLearning: {
-        ...formData.distanceLearning,
+        ...prev.distanceLearning,
         selectedOptions: updatedSelections,
       }
-    });
+    }));
   };
 
   const learningOptions = [
@@ -57,6 +57,8 @@ export default function DistanceLearning({ formData, setFormData }: DistanceLear
     'Online',
     'Radio-Based Television',
   ];
+
+  const selectedOptions = formData.distanceLearning?.selectedOptions || [];
 
   return (
     <div className="w-full sm:w-1/2 m-5 flex flex-col p-3 justify-between items-center text-black bg-gray-100 shadow-gray-400 shadow-lg">
@@ -76,7 +78,7 @@ export default function DistanceLearning({ formData, setFormData }: DistanceLear
                 type="checkbox" 
                 value={option} 
                 className="accent-blue-600"
-                checked={formData.distanceLearning?.selectedOptions?.includes(option) || false}
+                checked={selectedOptions.includes(option)}
                 onChange={handleChange(option)} 
               />
               <span>{option}</span>

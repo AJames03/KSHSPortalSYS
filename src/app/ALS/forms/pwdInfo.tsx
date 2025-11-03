@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import { Poppins } from 'next/font/google';
+import { ALSFormData } from '@/app/ALS/page';
+
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -8,24 +10,32 @@ const poppins = Poppins({
   style: ['normal', 'italic'],
 });
 
-interface PWDInfoProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+// Define proper types for PWD info
+interface PWDInfo {
+  pwdChoice: 'Yes' | 'No' | '';
+  pwdOption: string;
+  subOption: string;
+  pwdID: 'Yes' | 'No' | '';
+  PWD: string;
 }
 
-export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
-  // ✅ Universal handleChange with combine logic
+interface PWDInfoProps {
+  formData: ALSFormData;
+  setFormData: React.Dispatch<React.SetStateAction<ALSFormData>>;
+}
+
+export default function PWDInfo({ formData, setFormData }: PWDInfoProps) {
+  // ✅ Universal handleChange
   const handleChange =
-    (field: string) =>
+    (field: keyof PWDInfo) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const value = e.target.value;
 
-      const updatedPwdInfo = { ...formData.pwdInfo, [field]: value };
+      const updatedPwdInfo: PWDInfo = { ...(formData.pwdInfo as PWDInfo), [field]: value };
 
       const choice = updatedPwdInfo.pwdChoice || '';
       const option = updatedPwdInfo.pwdOption || '';
       const sub = updatedPwdInfo.subOption || '';
-      const pwd = updatedPwdInfo.pwdID || '';
 
       let combined = '';
 
@@ -42,7 +52,6 @@ export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
       });
     };
 
-  // a1. With Diagnosis
   const aOptions = [
     'Attention Deficit Hyperactivity Disorder',
     'Autism Spectrum Disorder',
@@ -58,14 +67,10 @@ export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
     'Visual Impairment',
   ];
 
-
   const subSHP = ['Cancer', 'Non-Cancer'];
   const subVI = ['Blind', 'Low Vision'];
 
-  const pwdChoice = formData.pwdInfo?.pwdChoice || '';
-  const pwdOption = formData.pwdInfo?.pwdOption || '';
-  const subOption = formData.pwdInfo?.subOption || '';
-  const pwdID = formData.pwdInfo?.pwdID || '';
+  const { pwdChoice, pwdOption, subOption, pwdID } = formData.pwdInfo;
 
   return (
     <div className="w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 p-2 sm:m-5 sm:p-5 bg-gray-100 shadow-gray-400 shadow-lg">
@@ -136,9 +141,7 @@ export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
           {/* 🔹 Sub-options for SHP */}
           {pwdOption === 'Special Health Problems/Chronic Diseases' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
-              <p className="italic text-gray-500 font-medium">
-                If Special Health Problem, specify:
-              </p>
+              <p className="italic text-gray-500 font-medium">If Special Health Problem, specify:</p>
               {subSHP.map((sub) => (
                 <label key={sub} className="flex gap-2 items-center">
                   <input
@@ -158,9 +161,7 @@ export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
           {/* 🔹 Sub-options for VI */}
           {pwdOption === 'Visual Impairment' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
-              <p className="italic text-gray-500 font-medium">
-                If Visual Impairment, specify:
-              </p>
+              <p className="italic text-gray-500 font-medium">If Visual Impairment, specify:</p>
               {subVI.map((sub) => (
                 <label key={sub} className="flex gap-2 items-center">
                   <input
@@ -178,10 +179,7 @@ export default function pwdInfo({ formData, setFormData }: PWDInfoProps) {
           )}
 
           {/* 🔹 a2 Section */}
-          <p className={`${poppins.className} italic text-[clamp(0.8rem,2vw,1.2rem)]`}>
-            a2. With Manifestation:
-          </p>
-
+          <p className={`${poppins.className} italic text-[clamp(0.8rem,2vw,1.2rem)]`}>a2. With Manifestation:</p>
 
           {/* 🔹 PWD ID Section */}
           <div className="flex flex-col">

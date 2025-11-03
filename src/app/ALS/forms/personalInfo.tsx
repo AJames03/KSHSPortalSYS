@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react'
-import { Arvo, Bebas_Neue, Poppins } from 'next/font/google';
+import React, { useEffect } from 'react'
+import { Poppins } from 'next/font/google';
+import { ALSFormData} from '@/app/ALS/page';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -8,25 +9,66 @@ const poppins = Poppins({
   style: ["normal", "italic"],
 });
 
+interface PersonalInfo {
+  email?: string;
+  date?: string;
+  lrn?: string;
+  lname?: string;
+  fname?: string;
+  mname?: string;
+  ename?: string;
+  cn?: string;
+  birthdate?: string;
+  age?: number;
+  sex?: string;
+  birthplace?: string;
+  religion?: string;
+  motherTongue?: string;
+  civilStatus?: string;
+  selectIP?: 'Yes' | 'No' | '';
+  indigenousPeople?: string;
+  select4PS?: 'Yes' | 'No';
+  fourPS?: string;
+  houseNumber?: string;
+  streetName?: string;
+  barangay?: string;
+  municipality?: string;
+  province?: string;
+  country?: string;
+  zipCode?: string;
+  selectAddress?: 'Yes' | 'No';
+  pHN?: string;
+  pSN?: string;
+  pbrgy?: string;
+  pMunicipal?: string;
+  pProvince?: string;
+  pCountry?: string;
+  pZipCode?: string;
+};
+
 interface PersonalInfoProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: ALSFormData;
+  setFormData: React.Dispatch<React.SetStateAction<ALSFormData>>;
 }
 
 export default function PersonalInfo({ formData, setFormData }: PersonalInfoProps) {
 
     useEffect(() => {
-        if (!formData.personalInfo?.date) {
-          const date = new Date().toISOString().split("T")[0];
-          setFormData({
-            ...formData,
-            personalInfo: {
-              ...formData.personalInfo,
-              date: date,
-            },
-          });
-        }
-      }, []);
+    setFormData(prev => {
+            if (!prev.personalInfo?.date) {
+                return {
+                    ...prev,
+                    personalInfo: {
+                        ...prev.personalInfo,
+                        date: new Date().toISOString().split("T")[0],
+                    },
+                };
+            }
+            return prev;
+        });
+    }, [setFormData]); 
+
+
 
     const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({
@@ -39,6 +81,15 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
   return (
     <div className='w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 m-2 sm:p-5'>
         <header className={`${poppins.className} sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] bg-gray-100 shadow-gray-400 shadow-lg rounded-lg flex flex-col gap-5 p-5`}>
+            <span className='col-span-2'>
+                <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Email:</p>
+                <input 
+                    className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
+                    type="email" 
+                    value={formData.personalInfo?.email || ''}
+                    onChange={handleChange('email')}
+                />
+            </span>    
             <span>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Date</p>
                 <input 
@@ -91,6 +142,25 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                     onChange={handleChange('mname')}
                 />
             </span>
+            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Suffix:</label>
+                <input 
+                    type="text" 
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                    value={formData.personalInfo.ename}
+                    onChange={handleChange('ename')}
+                />
+            </span>
+            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
+                <input 
+                    type="text" 
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                    value={formData.personalInfo.cn}
+                    onChange={handleChange('cn')}
+                />
+            </span>
+
 
            
             {/* BIRTHDATE, AGE, SEX */}
@@ -99,7 +169,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                 <input 
                     type="date" 
                     className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.birthdate}
+                    value={formData.personalInfo.bday}
                     onChange={handleChange('bday')}
                 />
             </span>
@@ -109,7 +179,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                     <input 
                         type="number" 
                         className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                        value={formData.personalInfo.age}
+                        value={formData.personalInfo.age ?? ''}
                         onChange={handleChange('age')}
                     />
                 </span>
@@ -164,6 +234,27 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                 />
             </span>
 
+            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Civil Status:</label>
+                <select 
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                    value={formData.personalInfo.civilStatus} 
+                    onChange={(e) =>
+                        setFormData(prev => ({
+                        ...prev,
+                        personalInfo: { ...prev.personalInfo, civilStatus: e.target.value },
+                        }))
+                    }
+                >
+                        <option value="" disabled>Select Civil Status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Separated">Separated</option>
+                        <option value="Divorced">Solo Parent</option>
+                        <option value="Widowed">Widow/er</option>
+                </select>
+            </span>
+
             {/* BELONG TO ANY INDIGENOUS PEOPLE */}
             <span className='grid grid-cols-4 sm:grid-cols-3 gap-2'>
                 <label className={`${poppins.className} text-[12px] sm:text-[14px] col-span-4 italic text-gray-500`}>Belong to any Indigenous People Community/Indigenous Cultural Community?</label>
@@ -174,13 +265,13 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                             name="IP" 
                             className='accent-blue-700 text-sm' 
                             value="Yes"
-                            checked={formData.personalInfo.selectIP === 'Yes'}
+                            checked={formData.personalInfo?.selectIP === 'Yes'}
                             onChange={(a) => {
                                 setFormData({
                                     ...formData,
                                     personalInfo: {
                                         ...formData.personalInfo,
-                                        selectIP: a.target.value,  
+                                        selectIP: a.target.value,
                                         indigenousPeople: formData.personalInfo.indigenousPeople || '',      
                                     },
                                 });
@@ -200,7 +291,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ...formData,
                                     personalInfo: {
                                         ...formData.personalInfo,
-                                        selectIP: a.target.value,  
+                                        selectIP: a.target.value as 'Yes' | 'No',   
                                         indigenousPeople: 'No',      
                                     },
                                 });
@@ -245,7 +336,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ...formData,
                                     personalInfo: {
                                         ...formData.personalInfo,
-                                        select4PS: b.target.value,
+                                        select4PS: b.target.value as 'Yes' | 'No',
                                         fourPS: formData.personalInfo.fourPS || '',
                                     },
                                 })
@@ -265,7 +356,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ...formData,
                                     personalInfo: {
                                         ...formData.personalInfo,
-                                        select4PS: b.target.value,
+                                        select4PS: b.target.value as 'Yes' | 'No',
                                         fourPS: 'No',      
                                     },
                                 });
@@ -379,7 +470,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                         ...formData,
                                         personalInfo: {
                                             ...formData.personalInfo,
-                                            selectAddress: c.target.value,    
+                                            selectAddress: c.target.value as 'Yes' | 'No',  
                                             pHN: formData.personalInfo.houseNumber || '',
                                             pSN: formData.personalInfo.streetName || '',
                                             pbrgy: formData.personalInfo.barangay || '',
@@ -399,17 +490,17 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                 name="address" className='accent-blue-700 text-sm' 
                                 value="No" 
                                 checked={formData.personalInfo.selectAddress === 'No'} 
-                                onChange={(b) => {
+                                onChange={(c) => {
                                     setFormData({
                                         ...formData,
                                         personalInfo: {
                                             ...formData.personalInfo,
-                                            selectAddress: b.target.value,
+                                            selectAddress: c.target.value as 'Yes' | 'No',
                                             pHN: formData.personalInfo.pHN || '', 
-                                            pStreet: formData.personalInfo.pSN || '', 
-                                            pBrgy: formData.personalInfo.pbrgy || '', 
-                                            pMuni: formData.personalInfo.pMunicipal || '', 
-                                            pProv: formData.personalInfo.pProvince || '', 
+                                            pSN: formData.personalInfo.pSN || '', 
+                                            pbrgy: formData.personalInfo.pbrgy || '', 
+                                            pMunicipal: formData.personalInfo.pMunicipal || '', 
+                                            pProvince: formData.personalInfo.pProvince || '', 
                                             pCountry: formData.personalInfo.pCountry || '', 
                                             pZipCode: formData.personalInfo.pZipCode || '',    
                                         },

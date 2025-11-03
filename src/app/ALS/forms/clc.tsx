@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Poppins } from 'next/font/google';
+import { ALSFormData } from '@/app/ALS/page';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -8,46 +9,53 @@ const poppins = Poppins({
   style: ['normal', 'italic'],
 });
 
+// ✅ Keep only the local type needed for this form
+export interface CLCType {
+  kms?: string;
+  hour?: string;
+  transport?: string;
+  otherTransport?: string;
+  transportation?: string;
+  day?: string;
+  time?: string;
+}
+
 interface ClcProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: ALSFormData;
+  setFormData: React.Dispatch<React.SetStateAction<ALSFormData>>;
 }
 
 export default function Clc({ formData, setFormData }: ClcProps) {
   const handleChange =
-    (field: string) =>
+    (field: keyof CLCType) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setFormData((prevData: any) => {
-      const updatedClc = { ...prevData.clc };
+      setFormData((prevData) => {
+        const updatedClc: CLCType = { ...(prevData.clc || {}) };
 
-      if (field === 'transport') {
-        updatedClc.transport = e.target.value;
-        // kung hindi "Others", i-clear ang otherTransport
-        if (e.target.value !== 'Others') {
-          updatedClc.otherTransport = '';
+        if (field === 'transport') {
+          updatedClc.transport = e.target.value;
+          if (e.target.value !== 'Others') updatedClc.otherTransport = '';
+        } else if (field === 'otherTransport') {
+          updatedClc.transport = 'Others';
+          updatedClc.otherTransport = e.target.value;
+        } else {
+          updatedClc[field] = e.target.value;
         }
-      } else if (field === 'otherTransport') {
-        // keep "Others" selected habang nagta-type
-        updatedClc.transport = 'Others';
-        updatedClc.otherTransport = e.target.value;
-      } else {
-        updatedClc[field] = e.target.value;
-      }
 
-    updatedClc.transportation =
-    updatedClc.transport === 'Others'
-        ? updatedClc.otherTransport
-        : updatedClc.transport;
+        updatedClc.transportation =
+          updatedClc.transport === 'Others'
+            ? updatedClc.otherTransport
+            : updatedClc.transport;
 
-      return {
-        ...prevData,
-        clc: updatedClc,
-      };
-    });
-  };
+        return {
+          ...prevData,
+          clc: updatedClc,
+        };
+      });
+    };
 
   const trans = ['Walking', 'Motorcycle', 'Bicycle', 'Others'];
-  const day = [
+  const days = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -119,7 +127,6 @@ export default function Clc({ formData, setFormData }: ClcProps) {
                 <span className="text-[14px]">{item}</span>
               </label>
 
-              {/* Show textbox if "Others" is selected */}
               {item === 'Others' && formData.clc?.transport === 'Others' && (
                 <div className="flex flex-row items-center gap-1 ml-2">
                   <span className="block bg-blue-600 w-1 h-5/6 rounded-lg"></span>
@@ -146,7 +153,7 @@ export default function Clc({ formData, setFormData }: ClcProps) {
           </label>
 
           <div className="col-span-2 grid grid-cols-2 sm:flex-row gap-2 p-2 justify-center m-2">
-            {day.map((item, i) => (
+            {days.map((item, i) => (
               <div key={i} className="flex flex-col">
                 <label className="flex items-center gap-2">
                   <input

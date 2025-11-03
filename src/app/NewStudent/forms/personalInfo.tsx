@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react'
-import { Arvo, Bebas_Neue, Poppins } from 'next/font/google';
+import React from 'react'
+import { Poppins } from 'next/font/google';
+import {FormDataType} from '../page';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -8,10 +9,16 @@ const poppins = Poppins({
   style: ["normal", "italic"],
 });
 
+
 interface PersonalInfoProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: FormDataType;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
 }
+
+interface FormData {
+  personalInfo: PersonalInfoProps;
+}
+
 
 export default function PersonalInfo({ formData, setFormData }: PersonalInfoProps) {
 
@@ -66,15 +73,26 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                 />
             </span>
 
+            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Extension Name:</label>
+                <input 
+                    type="text" 
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                    value={formData.personalInfo.ename}
+                    onChange={handleChange('ename')}
+                    placeholder='e.g. Jr., III (If Applicable)'
+                />
+            </span>
+
            
             {/* BIRTHDATE, AGE, SEX */}
             <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Birthdate:</label>
-                <input 
-                    type="date" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.birthdate}
-                    onChange={handleChange('bday')}
+                <input
+                    type="date"
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`}
+                    value={formData.personalInfo.bday}
+                    onChange={handleChange('birthdate')}
                 />
             </span>
             <div className='grid grid-cols-2 gap-10 sm:flex sm:flex-col sm:gap-2'>
@@ -380,10 +398,10 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                             ...formData.personalInfo,
                                             selectAddress: b.target.value,
                                             pHN: formData.personalInfo.pHN || '', 
-                                            pStreet: formData.personalInfo.pSN || '', 
-                                            pBrgy: formData.personalInfo.pbrgy || '', 
-                                            pMuni: formData.personalInfo.pMunicipal || '', 
-                                            pProv: formData.personalInfo.pProvince || '', 
+                                            pSN: formData.personalInfo.pSN || '', 
+                                            pbrgy: formData.personalInfo.pbrgy || '', 
+                                            pMunicipal: formData.personalInfo.pMunicipal || '', 
+                                            pProvince: formData.personalInfo.pProvince || '', 
                                             pCountry: formData.personalInfo.pCountry || '', 
                                             pZipCode: formData.personalInfo.pZipCode || '',    
                                         },

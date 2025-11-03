@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { Poppins } from 'next/font/google';
+import { FormDataType, SnepInfoType } from '../page';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -9,43 +10,35 @@ const poppins = Poppins({
 });
 
 interface SNEPInfoProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: FormDataType;
+  setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
 }
 
 export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
-  // ✅ Universal handleChange with combine logic
   const handleChange =
-    (field: string) =>
+    (field: keyof SnepInfoType) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const value = e.target.value;
-
-      // Temporarily update snepInfo
       const updatedSnepInfo = { ...formData.snepInfo, [field]: value };
 
-      // 🧠 Combine logic for one column value (SNEP)
       const choice = updatedSnepInfo.snepChoice || '';
       const option = updatedSnepInfo.snepOption || '';
       const sub = updatedSnepInfo.subOption || '';
-      const pwd = updatedSnepInfo.pwdID || '';
 
       let combined = '';
-
       if (choice.toLowerCase() === 'no') combined = 'None';
       else if (sub) combined = `${option} (${sub})`;
       else if (option) combined = option;
 
-      // Update formData with combined SNEP
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         snepInfo: {
           ...updatedSnepInfo,
           SNEP: combined,
         },
-      });
+      }));
     };
 
-  // a1. With Diagnosis
   const a1Options = [
     'Attention Deficit Hyperactivity Disorder',
     'Autism Spectrum Disorder',
@@ -61,7 +54,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
     'Visual Impairment',
   ];
 
-  // a2. With Manifestation
   const a2Options = [
     'Difficulty in Applying Knowledge',
     'Difficulty in Communicating',
@@ -76,14 +68,10 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
   const subSHP = ['Cancer', 'Non-Cancer'];
   const subVI = ['Blind', 'Low Vision'];
 
-  const snepChoice = formData.snepInfo?.snepChoice || '';
-  const snepOption = formData.snepInfo?.snepOption || '';
-  const subOption = formData.snepInfo?.subOption || '';
-  const pwdID = formData.snepInfo?.pwdID || '';
+  const { snepChoice, snepOption, subOption, pwdID } = formData.snepInfo;
 
   return (
     <div className="w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 p-2 sm:m-5 sm:p-5 bg-gray-100 shadow-gray-400 shadow-lg">
-      {/* 🔹 Question: Is learner under SNEP? */}
       <span className="flex flex-col gap-2 font-medium text-center">
         <label>Is the Learner under the Special Needs Education Program?</label>
         <span className="flex gap-2 justify-center items-center">
@@ -127,7 +115,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             Check Only 1, either from a1 or a2
           </p>
 
-          {/* 🔹 a1 Section */}
           <p className={`${poppins.className} italic text-[clamp(0.8rem,2vw,1.2rem)]`}>
             a1. With Diagnosis from Licensed Medical Specialist:
           </p>
@@ -148,12 +135,9 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             ))}
           </div>
 
-          {/* 🔹 Sub-options for SHP */}
           {snepOption === 'Special Health Problems/Chronic Diseases' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
-              <p className="italic text-gray-500 font-medium">
-                If Special Health Problem, specify:
-              </p>
+              <p className="italic text-gray-500 font-medium">If Special Health Problem, specify:</p>
               {subSHP.map((sub) => (
                 <label key={sub} className="flex gap-2 items-center">
                   <input
@@ -170,12 +154,9 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             </div>
           )}
 
-          {/* 🔹 Sub-options for VI */}
           {snepOption === 'Visual Impairment' && (
             <div className="pl-4 border-l-4 border-blue-500 flex flex-col gap-2 text-[14px]">
-              <p className="italic text-gray-500 font-medium">
-                If Visual Impairment, specify:
-              </p>
+              <p className="italic text-gray-500 font-medium">If Visual Impairment, specify:</p>
               {subVI.map((sub) => (
                 <label key={sub} className="flex gap-2 items-center">
                   <input
@@ -192,7 +173,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             </div>
           )}
 
-          {/* 🔹 a2 Section */}
           <p className={`${poppins.className} italic text-[clamp(0.8rem,2vw,1.2rem)]`}>
             a2. With Manifestation:
           </p>
@@ -213,7 +193,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
             ))}
           </div>
 
-          {/* 🔹 PWD ID Section */}
           <div className="flex flex-col">
             <label className={`${poppins.className} italic text-[clamp(0.8rem,2vw,1.2rem)]`}>
               b. Does the Learner have a PWD ID?
