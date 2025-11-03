@@ -217,9 +217,9 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
             </span>
             <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Religion:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px]sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                <input
+                    type="text"
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`}
                     value={formData.personalInfo.religion}
                     onChange={handleChange('religion')}
                 />
