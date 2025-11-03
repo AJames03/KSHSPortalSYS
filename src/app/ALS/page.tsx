@@ -1,5 +1,4 @@
 'use client';
-export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import { Arvo, Poppins } from 'next/font/google';
