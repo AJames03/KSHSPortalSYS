@@ -15,11 +15,6 @@ interface PersonalInfoProps {
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
 }
 
-interface FormData {
-  personalInfo: PersonalInfoProps;
-}
-
-
 export default function PersonalInfo({ formData, setFormData }: PersonalInfoProps) {
 
     const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
