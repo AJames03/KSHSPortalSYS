@@ -197,16 +197,6 @@ const initialFormData: ALSFormData = {
   enrollment_status: "Pending",
 };
 
-export interface ALSFormData {
-  personalInfo: PersonalInfoType;
-  parentInfo: ParentInfoType;
-  pwdInfo: PWDInfoType;
-  educationalInfo: EducationalInfoType;
-  clc: CLCType;
-  distanceLearning: DistanceLearningType;
-  enrollment_status: "Pending" | "Completed";
-}
-
 // --- Component ---
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
