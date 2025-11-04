@@ -1,12 +1,11 @@
 'use client';
-export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import { Arvo, Poppins } from 'next/font/google';
 import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { supabase } from '@/lib/supabaseClient';
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from '@/lib/supabaseClient';
 
 import PersonalInfo from "@/app/ALS/forms/personalInfo";
 import ParentInfo from "@/app/ALS/forms/parentInformation";
