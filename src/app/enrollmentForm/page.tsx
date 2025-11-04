@@ -82,7 +82,7 @@ export default function Page() {
             </div>
 
 
-            <h1 className={`${poppins.className} text-[12px] sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
+            <h1 className={`${poppins.className} text-[12px] text-black sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
               <TypingAnimation 
               text="Welcome to Kasiglahan Village Senior High School! Get ready to start your journey with us—new students, gather your important documents for a smooth enrollment, and ALS students, connect with your coordinator to kickstart your learning adventure. Let's make this school year amazing together!" 
               speed={50} />
