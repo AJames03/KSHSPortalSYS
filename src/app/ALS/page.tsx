@@ -350,7 +350,7 @@ export default function Page() {
 
   // --- Render ---
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col bg-amber-50">
       {/* Header */}
       <div className="text-center bg-blue-700 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
         <Image
@@ -364,15 +364,15 @@ export default function Page() {
           <label>KASIGLAHAN VILLAGE</label>
           <label>SENIOR HIGH SCHOOL</label>
           <div className="flex bg-white pl-2 pr-2 text-black justify-center items-center rounded-md">
-            <label className={`${poppins.className} text-[10px] text-amber-600`}>STEM</label>
+            <label className={`${poppins.className} text-[12px] text-amber-600`}>STEM</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] text-green-600`}>ABM</label>
+            <label className={`${poppins.className} text-[12px] text-green-600`}>ABM</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] text-blue-700`}>TVL-ICT</label>
+            <label className={`${poppins.className} text-[12px] text-blue-700`}>TVL-ICT</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] text-green-800`}>HUMSS</label>
+            <label className={`${poppins.className} text-[12px] text-green-800`}>HUMSS</label>
             <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[10px] text-orange-500`}>ALS</label>
+            <label className={`${poppins.className} text-[12px] text-orange-500`}>ALS</label>
           </div>
         </div>
       </div>
