@@ -41,7 +41,7 @@ function TypingAnimation({ text, speed = 100 } : TypingAnimationProps) {
 
 export default function Page() {
   return (
-    <div className='bg-gray-200 w-full h-screen flex flex-col'>
+    <div className='bg-blue-500 w-full h-screen flex flex-col'>
 
         {/* Header */}
         <div className="text-center bg-blue-700 text-white flex justify-center p-2 gap-2 w-full sticky top-0">
