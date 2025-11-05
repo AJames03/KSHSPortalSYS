@@ -41,7 +41,7 @@ function TypingAnimation({ text, speed = 100 } : TypingAnimationProps) {
 
 export default function Page() {
   return (
-    <div className='bg-blue-500 w-full h-screen flex flex-col'>
+    <div className='bg-gray-200 w-full h-screen flex flex-col'>
 
         {/* Header */}
         <div className="text-center bg-blue-700 text-white flex justify-center p-2 gap-2 w-full sticky top-0">
@@ -82,7 +82,7 @@ export default function Page() {
             </div>
 
 
-            <h1 className={`${poppins.className} text-[12px] !text-black sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
+            <h1 className={`${poppins.className} text-[12px] text-black sm:text-xs lg:text-lg text-center sm:w-1/2 lg:w-6/12`}>
               <TypingAnimation 
               text="Welcome to Kasiglahan Village Senior High School! Get ready to start your journey with us—new students, gather your important documents for a smooth enrollment, and ALS students, connect with your coordinator to kickstart your learning adventure. Let's make this school year amazing together!" 
               speed={50} />
