@@ -12,6 +12,7 @@ const poppins = Poppins({
 interface EducationalInfoType {
   education_information: string;
   OSY: string;
+  attended: string;
   als_attended: string;
   complete_program: string;
   incomplete_reason: string;
@@ -31,6 +32,7 @@ export default function EducationalInfo({ formData, setFormData }: EducationalIn
         educationalInfo: {
           education_information: '',
           OSY: '',
+          attended: '',
           als_attended: '',
           complete_program: '',
           incomplete_reason: '',
@@ -195,13 +197,14 @@ export default function EducationalInfo({ formData, setFormData }: EducationalIn
               type="radio"
               name="alsAttendedMain"
               value="Yes"
-              checked={formData.educationalInfo?.als_attended === 'Yes'}
+              checked={formData.educationalInfo?.attended === 'Yes'}
               onChange={(e) =>
                 setFormData(prev => ({
                   ...prev,
                   educationalInfo: {
                     ...prev.educationalInfo!,
-                    als_attended: e.target.value,
+                    attended: e.target.value,
+                    als_attended: '',
                     complete_program: '',
                     incomplete_reason: '',
                   },
@@ -216,13 +219,14 @@ export default function EducationalInfo({ formData, setFormData }: EducationalIn
               type="radio"
               name="alsAttendedMain"
               value="No"
-              checked={formData.educationalInfo?.als_attended === 'No'}
+              checked={formData.educationalInfo?.attended === 'No'}
               onChange={(e) =>
                 setFormData(prev => ({
                   ...prev,
                   educationalInfo: {
                     ...prev.educationalInfo!,
-                    als_attended: e.target.value,
+                    attended: e.target.value,
+                    als_attended: '',
                     complete_program: '',
                     incomplete_reason: '',
                   },
@@ -234,7 +238,7 @@ export default function EducationalInfo({ formData, setFormData }: EducationalIn
           </label>
         </div>
 
-        {formData.educationalInfo?.als_attended === 'Yes' && (
+        {formData.educationalInfo?.attended === 'Yes' && (
           <div className="mt-3 w-full">
             <p className="font-semibold text-[16px] mb-2">If Yes, check the appropriate program</p>
             <div className="sm:grid sm:grid-cols-2 gap-3">

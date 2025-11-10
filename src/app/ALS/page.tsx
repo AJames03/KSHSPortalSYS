@@ -39,6 +39,7 @@ export interface PersonalInfoType {
   fourPS: string;
   houseNumber: string;
   streetName: string;
+  region: string;
   barangay: string;
   municipality: string;
   province: string;
@@ -46,6 +47,7 @@ export interface PersonalInfoType {
   zipCode: string;
   pHN: string;
   pSN: string;
+  pRegion: string;
   pbrgy: string;
   pMunicipal: string;
   pProvince: string;
@@ -84,6 +86,7 @@ export interface PWDInfoType {
 export interface EducationalInfoType {
   education_information: string;
   OSY: string;
+  attended: string;
   als_attended: string;
   complete_program: string;
   incomplete_reason: string;
@@ -136,17 +139,19 @@ const initialFormData: ALSFormData = {
     fourPS: "",
     houseNumber: "",
     streetName: "",
+    region: "",
     barangay: "",
     municipality: "",
     province: "",
-    country: "",
+    country: "Philippines",
     zipCode: "",
     pHN: "",
     pSN: "",
+    pRegion: "",
     pbrgy: "",
     pMunicipal: "",
     pProvince: "",
-    pCountry: "",
+    pCountry: "Philippines",
     pZipCode: "",
     // not store in DataBase
     selectIP: "",
@@ -178,6 +183,7 @@ const initialFormData: ALSFormData = {
   educationalInfo: {
     education_information: "",
     OSY: "",
+    attended: "",
     als_attended: "",
     program_status: "",
     // not store in database
@@ -213,16 +219,54 @@ export default function Page() {
     }
   }, [notification]);
 
-  // --- Navigation ---
   const handleNext = () => {
     const missingFields: string[] = [];
-    if (currentStep === 1 && !formData.personalInfo.lrn) missingFields.push("LRN Number");
 
-    if (missingFields.length > 0) {
-      setNotification({ message: `Please fill in: ${missingFields.join(", ")}`, type: "error" });
-      return;
+    if (currentStep === 1) {
+      const { lrn, lname, fname, mname, bday, age, sex, birthplace, religion, motherTongue, indigenousPeople, fourPS, houseNumber, streetName, barangay, municipality, province, country, zipCode, selectAddress, pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode } = formData.personalInfo;
+      if (!lrn) missingFields.push("LRN Number");
+      if (!lname) missingFields.push("Last Name");
+      if (!fname) missingFields.push("First Name");
+      if (!mname) missingFields.push("Middle Name");
+      if (!bday) missingFields.push("Birthdate");
+      if (!age) missingFields.push("Age");
+      if (!sex) missingFields.push("Sex");
+      if (!birthplace) missingFields.push("Birthplace");
+      if (!religion) missingFields.push("Religion");
+      if (!motherTongue) missingFields.push("Mother Tongue");
+      if (!indigenousPeople) missingFields.push("Indigenous People");
+      if (!fourPS) missingFields.push("4Ps");
+      if (!houseNumber) missingFields.push("House Number");
+      if (!streetName) missingFields.push("Street Name");
+      if (!barangay) missingFields.push("Barangay");
+      if (!municipality) missingFields.push("Municipality");
+      if (!province) missingFields.push("Province");
+      if (!country) missingFields.push("Country");
+      if (!zipCode) missingFields.push("Zip Code");
+      if (selectAddress === 'No' && ![pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode].every(Boolean)) missingFields.push("Permanent Address");
+    }
+    if (currentStep === 3) {
+      const { fatherLN, fatherFN, fatherMN, fatherCN, motherLN, motherFN, motherMN, motherCN, guardianLN, guardianFN, guardianMN, guardianCN } = formData.parentInfo;
+      if (![fatherCN, fatherFN, fatherLN, fatherMN, motherCN, motherFN, motherLN, motherMN, guardianCN, guardianFN, guardianLN, guardianMN].every(Boolean)) missingFields.push("Parent Information");
+    }
+    if (currentStep === 4) {
+      const { education_information, OSY } = formData.educationalInfo;
+      if (!education_information) missingFields.push("Education Information");
+      if (!OSY) missingFields.push("OSY");
+    }
+    if (currentStep === 5) {
+      const { kms, hour, transportation, day, time } = formData.clc;
+      if (!kms) missingFields.push("Kms");
+      if (!hour) missingFields.push("Hour");
+      if (!transportation) missingFields.push("Transportation");
+      if (!day) missingFields.push("Day");
+      if (!time) missingFields.push("Time");
     }
 
+    if (missingFields.length > 0) {
+      setNotification({ message: `Please, make sure that your ${missingFields.join(", ")} is filled up.`, type: "error" });
+      return;
+    }
     if (currentStep < 6) setCurrentStep(currentStep + 1);
   };
 

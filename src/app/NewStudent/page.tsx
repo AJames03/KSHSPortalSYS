@@ -26,36 +26,38 @@ type EnrollmentInfoType = {
 };
 
 type PersonalInfoType = {
-  psa: string;
-  lname: string;
-  fname: string;
-  mname: string;
-  ename: string;
-  bday: string;
-  age: string;
-  sex: string;
-  birthplace: string;
-  religion: string;
-  motherTongue: string;
-  selectIP: string;
-  indigenousPeople: string;
-  select4PS: string;
-  fourPS: string;
-  houseNumber: string;
-  streetName: string;
-  barangay: string;
-  municipality: string;
-  province: string;
-  country: string;
-  zipCode: string;
-  selectAddress: string;
-  pHN: string;
-  pSN: string;
-  pbrgy: string;
-  pMunicipal: string;
-  pProvince: string;
-  pCountry: string;
-  pZipCode: string;
+   psa: string;
+   lname: string;
+   fname: string;
+   mname: string;
+   ename: string;
+   bday: string;
+   age: string;
+   sex: string;
+   birthplace: string;
+   religion: string;
+   motherTongue: string;
+   selectIP: string;
+   indigenousPeople: string;
+   select4PS: string;
+   fourPS: string;
+   houseNumber: string;
+   streetName: string;
+   region: string;
+   barangay: string;
+   municipality: string;
+   province: string;
+   country: string;
+   zipCode: string;
+   selectAddress: string;
+   pHN: string;
+   pSN: string;
+   pRegion: string;
+   pbrgy: string;
+   pMunicipal: string;
+   pProvince: string;
+   pCountry: string;
+   pZipCode: string;
 };
 
 export type ParentInfoType = {
@@ -135,18 +137,20 @@ const initialFormData: FormDataType = {
     fourPS: "",
     houseNumber: "",
     streetName: "",
+    region: "",
     barangay: "",
     municipality: "",
     province: "",
-    country: "",
+    country: "Philippines",
     zipCode: "",
     selectAddress: "",
     pHN: "",
     pSN: "",
+    pRegion: "",
     pbrgy: "",
     pMunicipal: "",
     pProvince: "",
-    pCountry: "",
+    pCountry: "Philippines",
     pZipCode: "",
   },
   parentInfo: {
@@ -209,7 +213,7 @@ export default function Page() {
       if(!gradeLevel) missingFields.push("Grade Level");
     }
     if(currentStep === 2){
-      const { lname, fname, mname, bday, age, sex, birthplace, religion, motherTongue, indigenousPeople, fourPS, houseNumber, streetName, barangay, municipality, province, country, zipCode, pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode } = formData.personalInfo;
+      const { lname, fname, mname, bday, age, sex, birthplace, religion, motherTongue, indigenousPeople, fourPS, houseNumber, streetName, barangay, municipality, province, country, zipCode, selectAddress, pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode } = formData.personalInfo;
       if(!lname) missingFields.push("Last Name");
       if(!fname) missingFields.push("First Name");
       if(!mname) missingFields.push("Middle Name");
@@ -228,7 +232,7 @@ export default function Page() {
       if(!province) missingFields.push("Province");
       if(!country) missingFields.push("Country");
       if(!zipCode) missingFields.push("Zip Code");
-      if (![pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode].every(Boolean)) missingFields.push("Permanent Address");
+      if (selectAddress === 'No' && ![pHN, pSN, pbrgy, pMunicipal, pProvince, pCountry, pZipCode].every(Boolean)) missingFields.push("Permanent Address");
     }
     if(currentStep === 3){
       const { fatherLN, fatherFN, fatherMN, fatherCN, motherLN, motherFN, motherMN, motherCN, guardianLN, guardianFN, guardianMN, guardianCN } = formData.parentInfo;
@@ -364,7 +368,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-amber-50">
+    <div className="w-full h-full flex flex-col">
       {/* Header */}
       <div className="text-center bg-blue-700 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
         <Image
