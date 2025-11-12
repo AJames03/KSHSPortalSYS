@@ -22,7 +22,7 @@ interface TypingAnimationProps {
 }
 
 // Typing animation component
-function TypingAnimation({ text, speed = 100 } : TypingAnimationProps) {
+function TypingAnimation({ text, speed = 50 } : TypingAnimationProps) {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
