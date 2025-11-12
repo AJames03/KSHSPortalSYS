@@ -58,7 +58,7 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
   };
 
   return (
-    <div className='w-full flex flex-col sm:w-1/2 text-black bg-gray-100 shadow-lg rounded-lg gap-2 m-2 p-5'>
+    <div className='w-full flex flex-col sm:w-1/2 text-black bg-gray-100 shadow-lg rounded-lg gap-3 sm:gap-2 m-2 p-5'>
       <label className='flex flex-col'>
         <h1
           className={`${poppins.className} font-bold text-lg sm:text-2xl text-center sm:text-start`}
@@ -69,37 +69,37 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
       </label>
 
       {/* Email */}
-      <label className='grid grid-cols-2 w-full'>
+      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
         <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
           Email:
         </p>
         <input
           value={formData.enrollmentInfo?.email || ''}
           onChange={handleEmailChange}
-          className='text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
+          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
         />
       </label>
       {/* School Year */}
-      <label className='grid grid-cols-2 w-full'>
+      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
         <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
           School Year:
         </p>
         <input
           value={formData.enrollmentInfo?.schoolYear || ''}
-          className='text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-b'
+          className='text-left sm:text-center text-gray-500 text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-b'
           readOnly
         />
       </label>
 
       {/* Grade Level */}
-      <label className='grid grid-cols-2 w-full'>
+      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
         <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
           Grade Level to Enroll:
         </p>
         <select
           value={formData.enrollmentInfo?.gradeLevel || ''}
           onChange={handleGradeChange}
-          className='text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
+          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
         >
           <option value='' disabled>
             Select Grade Level
@@ -118,7 +118,7 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
       )}
 
       {/* LRN Number */}
-      <label className='grid grid-cols-2 w-full'>
+      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
         <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
           LRN Number:
         </p>
@@ -126,7 +126,7 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
           type='number'
           value={formData.enrollmentInfo?.lrn || ''}
           onChange={handleLrnChange}
-          className='text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
+          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
         />
       </label>
     </div>
