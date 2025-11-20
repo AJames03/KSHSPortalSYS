@@ -1,15 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { Arvo, Poppins, Alfa_Slab_One } from 'next/font/google';
+import { Arvo, Poppins, Alfa_Slab_One, Oswald } from 'next/font/google';
 import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import KSHS from "@/app/images/KSHS.jpg"
 import BP from "@/app/images/Bagong_Pilipinas.png"
 import DepEd from "@/app/images/deped.png"
 import Logo from "@/app/favicon.ico"
+import Loading from "@/app/enrollmentForm/components/loading"
 
 const arvo = Arvo({
   subsets: ["latin"],
@@ -26,11 +28,23 @@ const alfa = Alfa_Slab_One({
   weight: ["400"],
 });
 
+const oswald = Oswald({
+  subsets: ["latin"],
+  weight: ["700"],
+});
 
 
 export default function Page() {
   const [enrollModal, setEnrollModal] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const navigateWithLoading = async (path: string) => {
+    setIsLoading(true);
+    await new Promise(res => setTimeout(res, 1000));
+    router.push(path);
+  };
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -94,15 +108,12 @@ export default function Page() {
             <p className={`${poppins.className} text-xs sm:text-sm lg:text-base text-center sm:w-[50%] lg:w-[70%]`}>
               Maligayang Pagbabalik sa Paaralan, mga Bagong Mag-aaral! Malugod namin kayong tinatanggap
               sa Kasiglahan Village Senior High School! Handog namin ang bagong taon ng pagkatuto,
-              kasiyahan, at pagkakaibigan. Ito ang panahon para makilala ang inyong mga kaklase,
-              matuto ng mga bagong kaalaman, at subukan ang iba at ibang extracurricular activities.
-              Sama-sama nating palalimin ang ating mga talento at kakayahan habang nag-eenjoy sa bawat
-              araw sa paaralan.
+              kasiyahan, at pagkakaibigan.
             </p>
             <button 
               onClick={() => setEnrollModal(true)} 
-              className={`${poppins.className} bg-green-600  text-white px-6 p-3 mt-3 
-              rounded-lg shadow-md text-xs sm:text-sm w-40 sm:w-64 lg:w-72  cursor-pointer font-black tracking-widest
+              className={`${oswald.className} bg-green-600  text-white px-6 p-3 mt-3 
+              rounded-lg shadow-md text-xs sm:text-sm lg:text-lg w-40 sm:w-64 lg:w-72  cursor-pointer font-black tracking-widest
               animate-enlarge
               `}
             >
@@ -133,7 +144,6 @@ export default function Page() {
             </span>
           </div>
         </div>
-
         
         <AnimatePresence>
           {enrollModal && (
@@ -145,7 +155,7 @@ export default function Page() {
               className="fixed w-screen h-screen flex flex-col justify-center items-center z-50">
               <span className="absolute z-2 w-screen h-screen bg-black/80 backdrop-blur-sm" onClick={() => setEnrollModal(false)}></span>
               
-              <div className="flex flex-col w-[60%] justify-center items-center sm:flex-col lg:flex-col gap-10 z-3">
+              <div className="flex flex-col w-full lg:w-[60%] justify-center items-center sm:flex-col lg:flex-col gap-10 z-3">
                 <span className="flex flex-col justify-content items-center">
                   
                   <div className="flex flex-row w-1/2 justify-center gap-2 mb-5">
@@ -158,22 +168,39 @@ export default function Page() {
                   <p className={`${poppins.className} text-white text-xs sm:text-sm lg:text-base text-center sm:w-[50%] lg:w-[70%] p-2`}>AN ACT PROTECTING INDIVIDUAL PERSONAL INFORMATION IN INFORMATION AND COMMUNICATIONS SYSTEMS IN THE GOVERNMENT AND THE PRIVATE SECTOR, CREATING FOR THIS PURPOSE A NATIONAL PRIVACY COMMISSION, AND FOR OTHER PURPOSES</p>
                 </span>
                 <span className="flex flex-col gap-2">
-                  <Link href="/NewStudent">
-                    <button className="bg-blue-600 hover:bg-blue-700 hover:scale-105 transition-transform duration-200 text-white px-6 py-3 rounded-lg shadow-md w-full sm:w-64 lg:w-72 cursor-pointer">
-                      New Student Enrollment
-                    </button>
-                  </Link>
-                  <Link href="/ALS">
-                    <button className="bg-gray-200 hover:scale-105 transition-transform duration-200 text-black px-6 py-3 rounded-lg shadow-md w-full sm:w-64 lg:w-72 cursor-pointer">
-                      Alternative Learning System
-                    </button>
-                  </Link>
+                  <button className="bg-blue-600 hover:bg-blue-700 hover:scale-105
+                    transition-transform duration-200 text-white px-6 py-3 rounded-lg shadow-md
+                    w-full sm:w-64 lg:w-72 cursor-pointer"
+                    onClick = {(e) => { e.stopPropagation(); navigateWithLoading('/NewStudent'); }}
+                  >
+                    New Student Enrollment
+                  </button>
+
+                  <button className="bg-gray-200 hover:scale-105 transition-transform duration-200
+                  text-black px-6 py-3 rounded-lg shadow-md w-full sm:w-64 lg:w-72 cursor-pointer"
+                    onClick={(e) => { e.stopPropagation(); navigateWithLoading('/ALS'); }}
+                  >
+                    Alternative Learning System
+                  </button>
                 </span>
 
+                <div className="fixed top-0 right-0 p-3 lg:p-5">
+                  <div className="relative w-10 h-10 flex justify-center items-center cursor-pointer" onClick={() => setEnrollModal(false)}>
+
+                    <span className="absolute w-5 lg:w-7 h-1 bg-white rounded-full inline-block animate-exit1"></span>
+
+                    <span className="absolute w-5 lg:w-7 h-1 bg-white rounded-full inline-block animate-exit2"></span>
+
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        {isLoading && 
+          <Loading />
+        }
     </div>
   )
 }

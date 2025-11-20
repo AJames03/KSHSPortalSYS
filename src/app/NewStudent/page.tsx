@@ -15,6 +15,7 @@ import ParentInfo from "@/app/NewStudent/forms/parentInformation";
 import SNEPInfo from "@/app/NewStudent/forms/SNEPInfo";
 import ReturnRegular from "@/app/NewStudent/forms/returnRegular";
 import DistanceLearning from "@/app/NewStudent/forms/distanceLearning";
+import Loading from "@/app/NewStudent/components/loading"
 
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
@@ -198,6 +199,13 @@ export default function Page() {
   const [formData, setFormData] = useState<FormDataType>(initialFormData);
   const [exitModal, setExitModal] = useState(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigateWithLoading = async (path: string) => {
+    setIsLoading(true);
+    await new Promise(res => setTimeout(res, 1000));
+    router.push(path);
+  };
 
   useEffect(() => {
     if (notification) {
@@ -406,11 +414,11 @@ export default function Page() {
 
       {exitModal && (
         <div className='fixed flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
-          <div className='w-[30%] h-[20%] rounded-md bg-white p-5 flex flex-col gap-5'>
-            <p className='text-lg w-full border-b-1 font-bold'>Would you like to exit the form?</p>
-            <span className='grid grid-cols-2 gap-2'>
+          <div className='w-[95%] lg:w-[30%] lg:h-[20%] rounded-md bg-white p-5 flex flex-col gap-5'>
+            <p className='text-md p-2 lg:text-lg w-full border-b-1 font-bold'>Would you like to exit the form?</p>
+            <span className='grid grid-rows-1 lg:grid-cols-2 gap-2'>
               <button className='bg-blue-700 hover:bg-blue-800 text-white p-2 rounded-md cursor-pointer'
-                onClick={() => router.push("/")}
+                onClick = {(e) => { e.stopPropagation(); navigateWithLoading('/enrollmentForm'); }}
               >Yes, Exit</button>
               <button className='bg-gray-200 hover:bg-gray-300 p-2 rounded-md cursor-pointer' onClick={() => setExitModal(false)}>Cancel</button>
             </span>
@@ -437,6 +445,8 @@ export default function Page() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {isLoading && <Loading />}
 
       {/* Form */}
       <form

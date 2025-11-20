@@ -31,3 +31,23 @@ body {
 .animate-enlarge {
   animation: enlarge 2s linear infinite;
 }
+
+@keyframes exit1 {
+  0% { transform: rotate(-45deg); }
+  50% { transform: rotate(0deg); }
+  100% { transform: rotate(45deg); }
+}
+
+.animate-exit1{
+  animation: exit1 1s linear both;
+}
+
+@keyframes exit2 {
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(0deg); }
+  100% { transform: rotate(-45deg); }
+}
+
+.animate-exit2 {
+  animation: exit2 1s linear both;
+}
