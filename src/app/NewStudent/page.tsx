@@ -1,7 +1,8 @@
-'use client';
+'use client'
 export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Arvo, Poppins } from 'next/font/google';
 import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -195,6 +196,8 @@ export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [notification, setNotification] = useState<{ message: string; type: "error" | "success" } | null>(null);
   const [formData, setFormData] = useState<FormDataType>(initialFormData);
+  const [exitModal, setExitModal] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (notification) {
@@ -370,6 +373,12 @@ export default function Page() {
   return (
     <div className="w-full h-full flex flex-col">
       {/* Header */}
+      <label
+        onClick={() => setExitModal(true)} 
+        className=' top-2 right-2 p-2 bg-blue-700 text-white flex flex-row gap-3 text-[12px] lg:text-[14px] cursor-pointer'>
+          <i className="bi bi-box-arrow-left"></i>
+          <p>Back to Home Page</p>
+        </label>
       <div className="text-center bg-blue-700 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
         <Image
           src="/KSHS_LOGO.png"
@@ -394,6 +403,20 @@ export default function Page() {
           </div>
         </div>
       </div>
+
+      {exitModal && (
+        <div className='fixed flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
+          <div className='w-[30%] h-[20%] rounded-md bg-white p-5 flex flex-col gap-5'>
+            <p className='text-lg w-full border-b-1 font-bold'>Would you like to exit the form?</p>
+            <span className='grid grid-cols-2 gap-2'>
+              <button className='bg-blue-700 hover:bg-blue-800 text-white p-2 rounded-md cursor-pointer'
+                onClick={() => router.push("/")}
+              >Yes, Exit</button>
+              <button className='bg-gray-200 hover:bg-gray-300 p-2 rounded-md cursor-pointer' onClick={() => setExitModal(false)}>Cancel</button>
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Notification */}
       <AnimatePresence>
