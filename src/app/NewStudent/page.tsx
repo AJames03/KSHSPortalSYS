@@ -1658,12 +1658,12 @@ export default function Page() {
         onSubmit={handleSubmit}
         className="flex flex-col w-full h-full items-center justify-center"
       >
-        {currentStep === 3 && <EnrollmentInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 1 && <EnrollmentInfo formData={formData} setFormData={setFormData} />}
         {currentStep === 2 && <PersonalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 4 && <ParentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 5 && <SNEPInfo  formData={formData} setFormData={setFormData} />}
-        {currentStep === 6 && <ReturnRegular formData={formData} setFormData={setFormData} />}
-        {currentStep === 1 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+        {currentStep === 3 && <ParentInfo formData={formData} setFormData={setFormData} />}
+        {currentStep === 4 && <SNEPInfo  formData={formData} setFormData={setFormData} />}
+        {currentStep === 5 && <ReturnRegular formData={formData} setFormData={setFormData} />}
+        {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
 
         {/* Navigation */}
         <div className="flex gap-4 mt-4 p-5 w-full sm:w-1/2 justify-center flex-row">
