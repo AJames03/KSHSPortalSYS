@@ -160,9 +160,6 @@ type CleanedDataType = {
   guardianCN: string;
   SNEP: string;
   pwdID: string;
-  snepChoice: string;
-  snepOption: string;
-  subOption: string;
   rlGradeLevelComplete: string;
   rlLastSYComplete: string;
   rlLastSchoolAtt: string;
@@ -1070,11 +1067,8 @@ export default function Page() {
       color: rgb(0, 0, 0),
     });
 
-    console.log('snepOption:', data.snepOption);
-    console.log('subOption:', data.subOption);
-
     // SNEP Choice
-    if (data.snepChoice === 'Yes' || data.SNEP !== 'None') {
+    if (data.SNEP && data.SNEP !== 'None') {
       // Draw YES square
       page.drawSquare({
         x: 769.5,
@@ -1086,17 +1080,11 @@ export default function Page() {
       });
 
       // 🔹 Parse SNEP value to split mainOption & subOption
-      function parseSnep(SNEP: string) {
-        const main = SNEP.split(" (")[0];
-        const sub = SNEP.split(" (")[1]?.replace(")", "");
-        return { main, sub };
-      }
-
-      // 🔹 Parse data.SNEP once
-      const { main: snepOption, sub: subOption } = parseSnep(data.SNEP);
+      const main = data.SNEP.split(" (")[0];
+      const sub = data.SNEP.split(" (")[1]?.replace(")", "");
 
       // Draw specific option square
-      switch (snepOption) {
+      switch (main) {
         case 'Attention Deficit Hyperactivity Disorder':
           page.drawSquare({
             x: 727,
@@ -1302,8 +1290,8 @@ export default function Page() {
       // ---------------------------------------------
       // 1️⃣ VISUAL IMPAIRMENT
       // ---------------------------------------------
-      if (snepOption === 'Visual Impairment') {
-        if (subOption === 'Blind') {
+      if (main === 'Visual Impairment') {
+        if (sub === 'Blind') {
           page.drawSquare({
             x: 681,
             y: 180,
@@ -1312,7 +1300,7 @@ export default function Page() {
             borderColor: rgb(0, 0, 0),
             color: rgb(0, 0, 0),
           });
-        } else if (subOption === 'Low Vision') {
+        } else if (sub === 'Low Vision') {
           page.drawSquare({
             x: 681,
             y: 133,
@@ -1327,8 +1315,8 @@ export default function Page() {
       // ---------------------------------------------
       // 2️⃣ SPECIAL HEALTH PROBLEMS / CHRONIC DISEASES
       // ---------------------------------------------
-      if (snepOption === 'Special Health Problems/Chronic Diseases') {
-        if (subOption === 'Cancer') {
+      if (main === 'Special Health Problems/Chronic Diseases') {
+        if (sub === 'Cancer') {
           page.drawSquare({
             x: 712,
             y: 181,
@@ -1337,7 +1325,7 @@ export default function Page() {
             borderColor: rgb(0, 0, 0),
             color: rgb(0, 0, 0),
           });
-        } else if (subOption === 'Non-Cancer') {
+        } else if (sub === 'Non-Cancer') {
           page.drawSquare({
             x: 712,
             y: 134,
@@ -1369,17 +1357,6 @@ export default function Page() {
           color: rgb(0, 0, 0),
         });
       }
-    } else if (data.snepChoice === 'No') {
-      // Draw NO square
-      page.drawSquare({
-        x: 769.5,
-        y: 198,
-        size: 9,
-        borderWidth: 1,
-        borderColor: rgb(0, 0, 0),
-        color: rgb(0, 0, 0),
-      });
-    }
 
     // Distance Learning checkboxes
     if (data.distanceLearning && data.distanceLearning.length > 0) {
@@ -1538,9 +1515,6 @@ export default function Page() {
         guardianCN: toProperCase(cleanString(data.parentInfo.guardianCN)),
         SNEP: toProperCase(cleanString(data.snepInfo.SNEP)),
         pwdID: toProperCase(cleanString(data.snepInfo.pwdID)),
-        snepChoice: cleanString(data.snepInfo.snepChoice),
-        snepOption: cleanString(data.snepInfo.snepOption),
-        subOption: cleanString(data.snepInfo.subOption),
         rlGradeLevelComplete: toProperCase(cleanString(data.returnRegular.rlGradeLevelComplete)),
         rlLastSYComplete: toProperCase(cleanString(data.returnRegular.rlLastSYComplete)),
         rlLastSchoolAtt: toProperCase(cleanString(data.returnRegular.rlLastSchoolAtt)),
@@ -1700,4 +1674,6 @@ export default function Page() {
       </form>
     </div>
   );
+}
+
 }
