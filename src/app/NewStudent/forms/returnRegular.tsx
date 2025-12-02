@@ -40,7 +40,7 @@ export default function ReturnRegular({ formData, setFormData }: ReturnRegularPr
             { label: 'Last Grade Level Completed:', name: 'rlGradeLevelComplete', type: 'number' },
             { label: 'Last School Year Completed:', name: 'rlLastSYComplete', type: 'text' },
             { label: 'Last School Attended:', name: 'rlLastSchoolAtt', type: 'text' },
-            { label: 'School ID:', name: 'rlSchoolID', type: 'text' },
+            { label: 'School ID:', name: 'rlSchoolID', type: 'number' },
           ].map(({ label, name, type }) => (
             <span className="p-2" key={name}>
               <label className={`${poppins.className} text-[14px] sm:text-[16px] italic text-gray-500`}>

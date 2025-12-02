@@ -9,6 +9,35 @@ const poppins = Poppins({
   style: ['normal', 'italic'],
 });
 
+export const a1Options = [
+  'Attention Deficit Hyperactivity Disorder',
+  'Autism Spectrum Disorder',
+  'Cerebral Palsy',
+  'Emotional-Behavior Disorder',
+  'Hearing Impairment',
+  'Intellectual Disability',
+  'Learning Disability',
+  'Multiple Disabilities',
+  'Orthopedic/Physical Handicap',
+  'Speech Language Disorder',
+  'Special Health Problems/Chronic Diseases',
+  'Visual Impairment',
+];
+
+export const a2Options = [
+  'Difficulty in Applying Knowledge',
+  'Difficulty in Communicating',
+  'Difficulty in Displaying Interpersonal Behavior (Emotional and Behavioral)',
+  'Difficulty in Hearing',
+  'Difficulty in Mobility (Walking, Climbing, and Grasping)',
+  'Difficulty in Performing Adaptive Skills (Self-Care)',
+  'Difficulty in Remembering, Concentrating, Paying Attention and Understanding',
+  'Difficulty in Seeing',
+];
+
+export const subSHP = ['Cancer', 'Non-Cancer'];
+export const subVI = ['Blind', 'Low Vision'];
+
 interface SNEPInfoProps {
   formData: FormDataType;
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
@@ -39,34 +68,6 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
       }));
     };
 
-  const a1Options = [
-    'Attention Deficit Hyperactivity Disorder',
-    'Autism Spectrum Disorder',
-    'Cerebral Palsy',
-    'Emotional-Behavior Disorder',
-    'Hearing Impairment',
-    'Intellectual Disability',
-    'Learning Disability',
-    'Multiple Disabilities',
-    'Orthopedic/Physical Handicap',
-    'Speech Language Disorder',
-    'Special Health Problems/Chronic Diseases',
-    'Visual Impairment',
-  ];
-
-  const a2Options = [
-    'Difficulty in Applying Knowledge',
-    'Difficulty in Communicating',
-    'Difficulty in Displaying Interpersonal Behavior (Emotional and Behavioral)',
-    'Difficulty in Hearing',
-    'Difficulty in Mobility (Walking, Climbing, and Grasping)',
-    'Difficulty in Performing Adaptive Skills (Self-Care)',
-    'Difficulty in Remembering, Concentrating, Paying Attention and Understanding',
-    'Difficulty in Seeing',
-  ];
-
-  const subSHP = ['Cancer', 'Non-Cancer'];
-  const subVI = ['Blind', 'Low Vision'];
 
   const { snepChoice, snepOption, subOption, pwdID } = formData.snepInfo;
 
