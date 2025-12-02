@@ -1677,7 +1677,7 @@ export default function Page() {
             </button>
           )}
 
-          {currentStep < 1 && (
+          {currentStep < 6 && (
             <button
               type="button"
               onClick={handleNext}

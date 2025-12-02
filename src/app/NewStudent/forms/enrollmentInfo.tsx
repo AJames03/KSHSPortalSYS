@@ -104,8 +104,8 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
           <option value='' disabled>
             Select Grade Level
           </option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
+          <option value='11'>11</option>
+          <option value='12'>12</option>
           <option value='Non-Graded'>Non-Graded</option>
         </select>
       </label>
