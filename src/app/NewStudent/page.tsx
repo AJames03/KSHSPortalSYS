@@ -1465,6 +1465,7 @@ export default function Page() {
 
     // Use flattened names for filename
     link.href = URL.createObjectURL(blob);
+    link.download = 'NewStudent_Form.pdf';
     link.click();
   }
 
