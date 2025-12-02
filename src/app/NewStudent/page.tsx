@@ -160,6 +160,9 @@ type CleanedDataType = {
   guardianCN: string;
   SNEP: string;
   pwdID: string;
+  snepChoice: string;
+  snepOption: string;
+  subOption: string;
   rlGradeLevelComplete: string;
   rlLastSYComplete: string;
   rlLastSchoolAtt: string;
@@ -1068,7 +1071,7 @@ export default function Page() {
     });
 
     // SNEP Choice
-    if (data.SNEP && data.SNEP !== 'None') {
+    if (data.snepChoice && data.snepChoice && data.SNEP !== 'None') {
       // Draw YES square
       page.drawSquare({
         x: 769.5,
@@ -1079,12 +1082,8 @@ export default function Page() {
         color: rgb(0, 0, 0),
       });
 
-      // 🔹 Parse SNEP value to split mainOption & subOption
-      const main = data.SNEP.split(" (")[0];
-      const sub = data.SNEP.split(" (")[1]?.replace(")", "");
-
       // Draw specific option square
-      switch (main) {
+      switch (data.snepOption) {
         case 'Attention Deficit Hyperactivity Disorder':
           page.drawSquare({
             x: 727,
@@ -1194,6 +1193,25 @@ export default function Page() {
             borderColor: rgb(0, 0, 0),
             color: rgb(0, 0, 0),
           });
+          if (data.subOption === 'Cancer') {
+            page.drawSquare({
+              x: 712,
+              y: 181,
+              size: 9,
+              borderWidth: 1,
+              borderColor: rgb(0, 0, 0),
+              color: rgb(0, 0, 0),
+            });
+          } else if (data.subOption === 'Non-Cancer') {
+            page.drawSquare({
+              x: 712,
+              y: 134,
+              size: 9,
+              borderWidth: 1,
+              borderColor: rgb(0, 0, 0),
+              color: rgb(0, 0, 0),
+            });
+          }
           break;
         case 'Visual Impairment':
           page.drawSquare({
@@ -1204,6 +1222,25 @@ export default function Page() {
             borderColor: rgb(0, 0, 0),
             color: rgb(0, 0, 0),
           });
+          if (data.subOption === 'Blind') {
+            page.drawSquare({
+              x: 681,
+              y: 180,
+              size: 9,
+              borderWidth: 1,
+              borderColor: rgb(0, 0, 0),
+              color: rgb(0, 0, 0),
+            });
+          } else if (data.subOption === 'Low Vision') {
+            page.drawSquare({
+              x: 681,
+              y: 133,
+              size: 9,
+              borderWidth: 1,
+              borderColor: rgb(0, 0, 0),
+              color: rgb(0, 0, 0),
+            });
+          }
           break;
         case 'Difficulty in Applying Knowledge':
           page.drawSquare({
@@ -1287,55 +1324,6 @@ export default function Page() {
           break;
       }
 
-      // ---------------------------------------------
-      // 1️⃣ VISUAL IMPAIRMENT
-      // ---------------------------------------------
-      if (main === 'Visual Impairment') {
-        if (sub === 'Blind') {
-          page.drawSquare({
-            x: 681,
-            y: 180,
-            size: 9,
-            borderWidth: 1,
-            borderColor: rgb(0, 0, 0),
-            color: rgb(0, 0, 0),
-          });
-        } else if (sub === 'Low Vision') {
-          page.drawSquare({
-            x: 681,
-            y: 133,
-            size: 9,
-            borderWidth: 1,
-            borderColor: rgb(0, 0, 0),
-            color: rgb(0, 0, 0),
-          });
-        }
-      }
-
-      // ---------------------------------------------
-      // 2️⃣ SPECIAL HEALTH PROBLEMS / CHRONIC DISEASES
-      // ---------------------------------------------
-      if (main === 'Special Health Problems/Chronic Diseases') {
-        if (sub === 'Cancer') {
-          page.drawSquare({
-            x: 712,
-            y: 181,
-            size: 9,
-            borderWidth: 1,
-            borderColor: rgb(0, 0, 0),
-            color: rgb(0, 0, 0),
-          });
-        } else if (sub === 'Non-Cancer') {
-          page.drawSquare({
-            x: 712,
-            y: 134,
-            size: 9,
-            borderWidth: 1,
-            borderColor: rgb(0, 0, 0),
-            color: rgb(0, 0, 0),
-          });
-        }
-      }
 
       // Draw PWD ID
       if (data.pwdID === 'Yes') {
@@ -1357,6 +1345,17 @@ export default function Page() {
           color: rgb(0, 0, 0),
         });
       }
+    } else if (data.SNEP === 'None') {
+      // Draw NO square
+      page.drawSquare({
+        x: 769.5,
+        y: 198,
+        size: 9,
+        borderWidth: 1,
+        borderColor: rgb(0, 0, 0),
+        color: rgb(0, 0, 0),
+      });
+    }
 
     // Distance Learning checkboxes
     if (data.distanceLearning && data.distanceLearning.length > 0) {
@@ -1442,7 +1441,6 @@ export default function Page() {
 
     // Use flattened names for filename
     link.href = URL.createObjectURL(blob);
-    link.download = 'NewStudent_Form.pdf';
     link.click();
   }
 
@@ -1468,7 +1466,7 @@ export default function Page() {
         .toLowerCase()
         .replace(/\b\w/g, (char) => char.toUpperCase());
       }
-
+      
       return {
         lrn: cleanString(data.enrollmentInfo.lrn),
         gradeLevel: cleanString(data.enrollmentInfo.gradeLevel),
@@ -1526,12 +1524,14 @@ export default function Page() {
           toProperCase(cleanString(opt))
         ),
         enrollment_status: "Pending",
+        snepChoice: cleanString(data.snepInfo.snepChoice),
+        snepOption: cleanString(data.snepInfo.snepOption),
+        subOption: cleanString(data.snepInfo.subOption),
       };
     };
 
     try {
       const cleanedData = cleanData(formData);
-        
 
       const { error: supabaseError } = await supabase
         .from('NewStudents')
@@ -1542,12 +1542,12 @@ export default function Page() {
       } else {
         setNotification({ message: "Form submitted successfully!", type: "success" });
 
+        await generatedPDF(cleanedData);
         setFormData({ ...initialFormData });
         setCurrentStep(1);
 
-        await generatedPDF(cleanedData);
-
       }
+
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : JSON.stringify(err);
@@ -1674,6 +1674,4 @@ export default function Page() {
       </form>
     </div>
   );
-}
-
 }
