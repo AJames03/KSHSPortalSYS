@@ -1557,7 +1557,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className=" w-screen h-screen flex flex-col bg-gray-200">
       {/* Header */}
       <label
         onClick={() => setExitModal(true)} 
@@ -1565,7 +1565,7 @@ export default function Page() {
           <i className="bi bi-box-arrow-left"></i>
           <p>Back to Home Page</p>
         </label>
-      <div className="text-center bg-gradient-to-b from-blue-800 via-blue-700 to-sky-500 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
+      <div className="text-center z-50 bg-gradient-to-b  from-blue-800 via-blue-700 to-sky-500 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
         <Image
           src="/KSHS_LOGO.png"
           alt="logo"
@@ -1591,7 +1591,7 @@ export default function Page() {
       </div>
 
       {exitModal && (
-        <div className='fixed flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
+        <div className='fixed z-500 flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
           <div className='w-[95%] lg:w-[30%] lg:h-[20%] rounded-md bg-white p-5 flex flex-col 
             items-center justify-center gap-5'>
             <p className='text-md p-2 lg:text-lg w-full border-b-1 font-bold'>Would you like to exit the form?</p>
@@ -1629,49 +1629,54 @@ export default function Page() {
       {isLoading && <Loading />}
 
       {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full h-full items-center justify-center"
-      >
-        {currentStep === 1 && <EnrollmentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 2 && <PersonalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 3 && <ParentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 4 && <SNEPInfo  formData={formData} setFormData={setFormData} />}
-        {currentStep === 5 && <ReturnRegular formData={formData} setFormData={setFormData} />}
-        {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+      <div className='fixed w-full bottom-0 flex justify-center items-center'>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full lg:w-1/2 h-full grid grid-rows-[320px_70px] lg:grid-rows-[400px_70px] bg-white"
+        >
+          <div className='w-full h-full  overflow-auto'>
+            {currentStep === 1 && <EnrollmentInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 2 && <PersonalInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 3 && <ParentInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 4 && <SNEPInfo  formData={formData} setFormData={setFormData} />}
+            {currentStep === 5 && <ReturnRegular formData={formData} setFormData={setFormData} />}
+            {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+          </div>
 
-        {/* Navigation */}
-        <div className="flex gap-4 mt-4 p-5 w-full sm:w-1/2 justify-center flex-row">
-          {currentStep > 1 && (
-            <button
-              type="button"
-              onClick={handlePrevious}
-              className="bg-gray-400 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-gray-500 cursor-pointer"
-            >
-              Back
-            </button>
-          )}
+          {/* Navigation */}
+          <div className="bottom-0 w-full flex gap-4 p-4 justify-end">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-100 border border-blue-600 text-black w-full sm:w-1/3  px-6 py-2 hover:bg-gray-200 cursor-pointer"
+              >
+                Back
+              </button>
+            )}
 
-          {currentStep < 6 && (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="bg-blue-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-blue-700 cursor-pointer"
-            >
-              Next
-            </button>
-          )}
+            {currentStep < 6 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="bg-blue-600 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-blue-700 cursor-pointer"
+              >
+                Next
+              </button>
+            )}
 
-          {currentStep === 6 && (
-            <button
-              type="submit"
-              className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-green-700 cursor-pointer"
-            >
-              Submit
-            </button>
-          )}
-        </div>
-      </form>
+            {currentStep === 6 && (
+              <button
+                type="submit"
+                className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-green-700 cursor-pointer"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+
     </div>
   );
 }

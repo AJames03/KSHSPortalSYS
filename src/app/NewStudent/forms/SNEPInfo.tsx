@@ -72,7 +72,7 @@ export default function SNEPInfo({ formData, setFormData }: SNEPInfoProps) {
   const { snepChoice, snepOption, subOption, pwdID } = formData.snepInfo;
 
   return (
-    <div className="w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 p-2 sm:m-5 sm:p-5 bg-gray-100 shadow-gray-400 shadow-lg">
+    <div className="w-full flex flex-col text-black sm:text-lg gap-5 p-2">
       <span className="flex flex-col gap-2 font-medium text-center">
         <label>Is the Learner under the Special Needs Education Program?</label>
         <span className="flex gap-2 justify-center items-center">

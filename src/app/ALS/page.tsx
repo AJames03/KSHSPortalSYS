@@ -6,6 +6,7 @@ import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 import PersonalInfo from "@/app/ALS/forms/personalInfo";
 import ParentInfo from "@/app/ALS/forms/parentInformation";
@@ -13,7 +14,7 @@ import PWDInfo from "@/app/ALS/forms/pwdInfo";
 import EducationalInfo from "@/app/ALS/forms/educationalInfo";
 import CLC from "@/app/ALS/forms/clc";
 import DistanceLearning from "@/app/ALS/forms/distanceLearning";
-
+import Loading from "@/app/NewStudent/components/loading"
 // Fonts
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
@@ -35,6 +36,9 @@ export interface PersonalInfoType {
   religion: string;
   motherTongue: string;
   civilStatus: string;
+  gradeLevel: string;
+  track: string;
+  strand: string;
   indigenousPeople: string;
   fourPS: string;
   houseNumber: string;
@@ -135,6 +139,9 @@ const initialFormData: ALSFormData = {
     religion: "",
     motherTongue: "",
     civilStatus: "",
+    track: "",
+    strand: "",
+    gradeLevel: "11",
     indigenousPeople: "",
     fourPS: "",
     houseNumber: "",
@@ -210,6 +217,15 @@ export default function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const [notification, setNotification] = useState<{ message: string; type: "error" | "success" } | null>(null);
   const [formData, setFormData] = useState<ALSFormData>(initialFormData);
+  const [exitModal, setExitModal] = useState(false);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigateWithLoading = async (path: string) => {
+    setIsLoading(true);
+    await new Promise(res => setTimeout(res, 1000));
+    router.push(path);
+  };
 
   // Notification timer
   useEffect(() => {
@@ -316,6 +332,9 @@ export default function Page() {
       birthplace: toProperCase(cleanString(data.personalInfo.birthplace)),
       religion: toProperCase(cleanString(data.personalInfo.religion)),
       motherTongue: toProperCase(cleanString(data.personalInfo.motherTongue)),
+      gradeLevel: toProperCase(cleanString(data.personalInfo.gradeLevel)),
+      track: toProperCase(cleanString(data.personalInfo.track)),
+      strand: toProperCase(cleanString(data.personalInfo.strand)).toUpperCase(),
       indigenousPeople: toProperCase(cleanString(data.personalInfo.indigenousPeople)),
       fourPS: cleanString(data.personalInfo.fourPS),
       houseNumber: cleanString(data.personalInfo.houseNumber),
@@ -394,97 +413,126 @@ export default function Page() {
 
   // --- Render ---
   return (
-    <div className="w-full h-full flex flex-col bg-amber-50">
+    <div className="w-screen h-screen flex flex-col bg-gray-200">
       {/* Header */}
-      <div className="text-center bg-blue-700 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
-        <Image
-          src="/KSHS_LOGO.png"
-          alt="logo"
-          width={100}
-          height={100}
-          className="w-10 h-10 sm:w-10 sm:h-10 lg:w-32 lg:h-32"
-        />
-        <div className={`${arvo.className} flex flex-col justify-center sm:text-2xl`}>
-          <label>KASIGLAHAN VILLAGE</label>
-          <label>SENIOR HIGH SCHOOL</label>
-          <div className="flex bg-white pl-2 pr-2 text-black justify-center items-center rounded-md">
-            <label className={`${poppins.className} text-[12px] text-amber-600`}>STEM</label>
-            <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[12px] text-green-600`}>ABM</label>
-            <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[12px] text-blue-700`}>TVL-ICT</label>
-            <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[12px] text-green-800`}>HUMSS</label>
-            <i className="bi bi-dot"></i>
-            <label className={`${poppins.className} text-[12px] text-orange-500`}>ALS</label>
-          </div>
-        </div>
-      </div>
-
-      {/* Notification */}
-      <AnimatePresence>
-        {notification && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -60 }}
-            transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
-            className={`${poppins.className} text-[14px] sm:text-[16px] font-bold fixed top-0 sm:transform sm:translate-x-1/2 sm:w-1/2 p-4 text-center m-2 
-                        flex justify-center items-center text-white z-50
-                        ${notification.type === "error" 
-                          ? "bg-gradient-to-bl from-red-500 to-red-500 rounded-xl" 
-                          : "bg-green-600 rounded-lg"
-                        }`}
-          >
-            {notification.message}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <label
+              onClick={() => setExitModal(true)} 
+              className=' top-2 right-2 p-2 bg-blue-800 text-white flex flex-row gap-3 text-[12px] lg:text-[14px] cursor-pointer'>
+                <i className="bi bi-box-arrow-left"></i>
+                <p>Back to Home Page</p>
+              </label>
+            <div className="text-center z-50 bg-gradient-to-b  from-blue-800 via-blue-700 to-sky-500 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
+              <Image
+                src="/KSHS_LOGO.png"
+                alt="logo"
+                width={100}
+                height={100}
+                className="w-10 h-10 sm:w-10 sm:h-10 lg:w-32 lg:h-32"
+              />
+              <div className={`${arvo.className} flex flex-col justify-center sm:text-2xl`}>
+                <label>KASIGLAHAN VILLAGE</label>
+                <label>SENIOR HIGH SCHOOL</label>
+                <div className="flex bg-white pl-2 pr-2 text-black justify-center items-center rounded-md">
+                  <label className={`${poppins.className} text-[10px] sm:text-sm text-amber-600`}>STEM</label>
+                  <i className="bi bi-dot"></i>
+                  <label className={`${poppins.className} text-[10px] sm:text-sm text-green-600`}>ABM</label>
+                  <i className="bi bi-dot"></i>
+                  <label className={`${poppins.className} text-[10px] sm:text-sm text-blue-700`}>TVL-ICT</label>
+                  <i className="bi bi-dot"></i>
+                  <label className={`${poppins.className} text-[10px] sm:text-sm text-green-800`}>HUMSS</label>
+                  <i className="bi bi-dot"></i>
+                  <label className={`${poppins.className} text-[10px] sm:text-sm text-orange-500`}>ALS</label>
+                </div>
+              </div>
+            </div>
+      
+            {exitModal && (
+              <div className='fixed z-500 flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
+                <div className='w-[95%] lg:w-[30%] lg:h-[20%] rounded-md bg-white p-5 flex flex-col 
+                  items-center justify-center gap-5'>
+                  <p className='text-md p-2 lg:text-lg w-full border-b-1 font-bold'>Would you like to exit the form?</p>
+                  <span className='grid grid-rows-1 lg:grid-cols-2 w-full gap-2'>
+                    <button className='bg-blue-700 hover:bg-blue-800 text-white p-2 rounded-md cursor-pointer'
+                      onClick = {(e) => { e.stopPropagation(); navigateWithLoading('/enrollmentForm'); }}
+                    >Yes, Exit</button>
+                    <button className='bg-gray-200 hover:bg-gray-300  p-2 rounded-md cursor-pointer' 
+                      onClick={() => setExitModal(false)}>Cancel</button>
+                  </span>
+                </div>
+              </div>
+            )}
+      
+            {/* Notification */}
+            <AnimatePresence>
+              {notification && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -60 }}
+                  transition={{ duration: 0.4, type: "spring", bounce: 0.3 }}
+                  className={`${poppins.className} text-[14px] sm:text-[16px] font-bold fixed top-0 sm:transform sm:translate-x-1/2 sm:w-1/2 p-4 text-center m-2 
+                              flex justify-center items-center text-white z-50
+                              ${notification.type === "error" 
+                                ? "bg-gradient-to-bl from-red-500 to-red-500 rounded-xl" 
+                                : "bg-green-600 rounded-lg"
+                              }`}
+                >
+                  {notification.message}
+                </motion.div>
+              )}
+            </AnimatePresence>
+      
+            {isLoading && <Loading />}
 
       {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full h-full items-center justify-center"
-      >
-        {currentStep === 1 && <PersonalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 2 && <ParentInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 3 && <PWDInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 4 && <EducationalInfo formData={formData} setFormData={setFormData} />}
-        {currentStep === 5 && <CLC formData={formData} setFormData={setFormData} />}
-        {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+      <div className='fixed w-full bottom-0 flex justify-center items-center'>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full lg:w-1/2 h-full grid grid-rows-[320px_70px] lg:grid-rows-[400px_70px] bg-white"
+        >
+          <div className='w-full h-full  overflow-auto'>
+            {currentStep === 1 && <PersonalInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 2 && <ParentInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 3 && <PWDInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 4 && <EducationalInfo formData={formData} setFormData={setFormData} />}
+            {currentStep === 5 && <CLC formData={formData} setFormData={setFormData} />}
+            {currentStep === 6 && <DistanceLearning formData={formData} setFormData={setFormData} />}
+          </div>
 
-        {/* Navigation */}
-        <div className="flex gap-4 mt-4 p-5 w-full sm:w-1/2 justify-center flex-row">
-          {currentStep > 1 && (
-            <button
-              type="button"
-              onClick={handlePrevious}
-              className="bg-gray-400 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-gray-500 cursor-pointer"
-            >
-              Back
-            </button>
-          )}
+          {/* Navigation */}
+          <div className="bottom-0 w-full flex gap-4 p-4 justify-end">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={handlePrevious}
+                className="bg-gray-400 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-gray-500 cursor-pointer"
+              >
+                Back
+              </button>
+            )}
 
-          {currentStep < 6 && (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="bg-blue-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-blue-700 cursor-pointer"
-            >
-              Next
-            </button>
-          )}
+            {currentStep < 1 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="bg-blue-600 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-blue-700 cursor-pointer"
+              >
+                Next
+              </button>
+            )}
 
-          {currentStep === 6 && (
-            <button
-              type="submit"
-              className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 rounded-4xl hover:bg-green-700 cursor-pointer"
-            >
-              Submit
-            </button>
-          )}
-        </div>
-      </form>
+            {currentStep === 1 && (
+              <button
+                type="submit"
+                className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-green-700 cursor-pointer"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
+

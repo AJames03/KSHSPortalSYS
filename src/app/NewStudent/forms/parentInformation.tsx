@@ -18,15 +18,25 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
   const handleChange =
     (field: keyof ParentInfoType) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      setFormData({
-        ...formData,
-        parentInfo: { ...formData.parentInfo, [field]: e.target.value },
-      });
+      const value = e.target.value;
+      if (field === 'fatherCN' || field === 'motherCN' || field === 'guardianCN') {
+        if (value.length <= 11 && /^\d*$/.test(value)) {
+          setFormData({
+            ...formData,
+            parentInfo: { ...formData.parentInfo, [field]: value },
+          });
+        }
+      } else {
+        setFormData({
+          ...formData,
+          parentInfo: { ...formData.parentInfo, [field]: value },
+        });
+      }
     };
 
   return (
-    <div className="w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 m-2 sm:p-2">
-      <div className="flex flex-col m-2 gap-5 bg-gray-100 rounded-lg p-5 shadow-gray-400 shadow-lg">
+    <div className=" flex flex-col text-black sm:text-lg gap-5 m-2 sm:p-2">
+      <div className="flex flex-col gap-5">
         {/* Father's Information */}
         <div>
           <label
@@ -34,47 +44,47 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
           >
             Father&apos;s Name:
           </label>
-          <div className="p-2 sm:grid sm:grid-cols-3 gap-2">
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2">
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Last Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.fatherLN}
                 onChange={handleChange('fatherLN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 First Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.fatherFN}
                 onChange={handleChange('fatherFN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Middle Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.fatherMN}
                 onChange={handleChange('fatherMN')}
               />
             </span>
-            <span className="col-span-3">
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='col-span-3 flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Contact Number:
               </label>
               <input
                 type="number"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.fatherCN}
                 onChange={handleChange('fatherCN')}
               />
@@ -89,47 +99,47 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
           >
             Mother&apos;s Name:
           </label>
-          <div className="p-2 sm:grid sm:grid-cols-3 gap-2">
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2">
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Last Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.motherLN}
                 onChange={handleChange('motherLN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 First Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.motherFN}
                 onChange={handleChange('motherFN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Middle Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.motherMN}
                 onChange={handleChange('motherMN')}
               />
             </span>
-            <span className="col-span-3">
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='col-span-3 flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Contact Number:
               </label>
               <input
                 type="number"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.motherCN}
                 onChange={handleChange('motherCN')}
               />
@@ -144,47 +154,47 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
           >
             Legal Guardian&apos;s Name:
           </label>
-          <div className="p-2 sm:grid sm:grid-cols-3 gap-2">
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+          <div className="flex flex-col sm:grid sm:grid-cols-3 gap-2">
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Last Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.guardianLN}
                 onChange={handleChange('guardianLN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 First Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.guardianFN}
                 onChange={handleChange('guardianFN')}
               />
             </span>
-            <span>
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Middle Name:
               </label>
               <input
                 type="text"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.guardianMN}
                 onChange={handleChange('guardianMN')}
               />
             </span>
-            <span className="col-span-3">
-              <label className={`${poppins.className} text-[12px] sm:text-[16px] italic text-gray-500`}>
+            <span className='col-span-3 flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200'>
+              <label className={`${poppins.className} text-[12px] sm:text-[12px] italic text-gray-500`}>
                 Contact Number:
               </label>
               <input
                 type="number"
-                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium border-0 focus:outline-none border-b w-full`}
+                className={`${poppins.className} text-[12px] sm:text-[16px] font-medium focus:outline-none w-full`}
                 value={formData.parentInfo.guardianCN}
                 onChange={handleChange('guardianCN')}
               />

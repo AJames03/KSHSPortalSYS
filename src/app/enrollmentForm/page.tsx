@@ -6,7 +6,6 @@ import Image from 'next/image';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import KSHS from "@/app/images/KSHS.jpg"
 import BP from "@/app/images/Bagong_Pilipinas.png"
 import DepEd from "@/app/images/deped.png"

@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import Logo from '@/app/favicon.ico'
 
 export default function Loading() {
@@ -10,7 +11,7 @@ export default function Loading() {
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex h-25 
         w-25 animate-ping rounded-full bg-sky-700 opacity-75"></span>
         
-        <img src={Logo.src} alt='Logo' className='w-30 h-30 absolute top-1/2 left-1/2 
+        <Image src={Logo} alt='Logo' width={120} height={120} className='w-30 h-30 absolute top-1/2 left-1/2
         -translate-x-1/2 -translate-y-1/2 animate-pulse' />
       </span>
     </div>

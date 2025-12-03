@@ -58,77 +58,90 @@ export default function EnrollmentInfo({ formData, setFormData }: EnrollmentInfo
   };
 
   return (
-    <div className='w-full flex flex-col sm:w-1/2 text-black bg-gray-100 shadow-lg rounded-lg gap-3 sm:gap-2 m-2 p-5'>
-      <label className='flex flex-col'>
+    <div className='w-full h-full flex flex-col text-black gap-3 sm:gap-2 p-5 items-center overflow-auto'>
+      <p className='text-[12px] lg:text-[16px]'>
+        <label className='italic font-bold'>Instruction: </label>
+        <label>
+          Please complete all required fields and fill in your personal information with full details. Select your course or program carefully from the options provided. Ensure that all sections are completed before submitting the form and double-check your entries for any errors.
+        </label>
+      </p>
+      <label className='flex flex-col w-full'>
         <h1
-          className={`${poppins.className} font-bold text-lg sm:text-2xl text-center sm:text-start`}
+          className={`${poppins.className} font-bold text-md sm:text-2xl text-center w-[100%]`}
         >
           ENROLLMENT INFORMATION
         </h1>
         <span className='h-1 bg-black mb-2'></span>
       </label>
 
-      {/* Email */}
-      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
-        <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
-          Email:
-        </p>
-        <input
-          value={formData.enrollmentInfo?.email || ''}
-          onChange={handleEmailChange}
-          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
-        />
-      </label>
-      {/* School Year */}
-      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
-        <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
-          School Year:
-        </p>
-        <input
-          value={formData.enrollmentInfo?.schoolYear || ''}
-          className='text-left sm:text-center text-gray-500 text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-b'
-          readOnly
-        />
-      </label>
-
-      {/* Grade Level */}
-      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
-        <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
-          Grade Level to Enroll:
-        </p>
-        <select
-          value={formData.enrollmentInfo?.gradeLevel || ''}
-          onChange={handleGradeChange}
-          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
-        >
-          <option value='' disabled>
-            Select Grade Level
-          </option>
-          <option value='11'>11</option>
-          <option value='12'>12</option>
-          <option value='Non-Graded'>Non-Graded</option>
-        </select>
-      </label>
-
-      {/* Special Note for Non-Graded */}
-      {formData.enrollmentInfo?.gradeLevel === 'Non-Graded' && (
-        <label className='grid grid-cols-1 italic text-red-700 text-end w-full text-[12px] sm:text-[14px]'>
-          * For Special Needs Education (SNEd) Only *
+      <div className='w-full flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-5 lg:mt-5 overflw-auto'>
+        {/* Email */}
+        <label className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200 group'>
+          <p className='text-[clamp(0.8rem,2vw,1.2rem)] lg:text-[14px] font-medium relative 
+                         text-gray-500 group-focus-within:text-sky-500 duration-200'>
+            Email:
+          </p>
+          <input
+            value={formData.enrollmentInfo?.email || ''}
+            onChange={handleEmailChange}
+            className='text-left text-[16px] font-medium border-0 focus:outline-none'
+          />
         </label>
-      )}
+        {/* School Year */}
+        <label className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200 group'>
+          <p className='text-[clamp(0.8rem,2vw,1.2rem)] lg:text-[14px] font-medium relative 
+                         text-gray-500 group-focus-within:text-sky-500 duration-200'>
+            School Year:
+          </p>
+          <input
+            value={formData.enrollmentInfo?.schoolYear || ''}
+            className='text-left text-gray-500 text-[16px] font-medium outline-none'
+            readOnly
+          />
+        </label>
 
-      {/* LRN Number */}
-      <label className='grid grid-cols-1 sm:grid-cols-2 gap-2 w-full'>
-        <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-medium'>
-          LRN Number:
-        </p>
-        <input
-          type='number'
-          value={formData.enrollmentInfo?.lrn || ''}
-          onChange={handleLrnChange}
-          className='text-left sm:text-center text-[clamp(0.8rem,2vw,1.2rem)] font-medium border-0 focus:outline-none border-b'
-        />
-      </label>
+        {/* Grade Level */}
+        <label className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200 group'>
+          <p className='text-[clamp(0.8rem,2vw,1.2rem)] lg:text-[14px] font-medium relative 
+                         text-gray-500 group-focus-within:text-sky-500 duration-200'>
+            Grade Level to Enroll:
+          </p>
+          <select
+            value={formData.enrollmentInfo?.gradeLevel || ''}
+            onChange={handleGradeChange}
+            className='text-left text-[16px] font-medium border-0 focus:outline-none'
+          >
+            <option value='' disabled>
+              Select Grade Level
+            </option>
+            <option value='11'>11</option>
+            <option value='12'>12</option>
+            <option value='Non-Graded'>Non-Graded</option>
+          </select>
+          {/* Special Note for Non-Graded */}
+          {formData.enrollmentInfo?.gradeLevel === 'Non-Graded' && (
+            <label className='right-[30px] italic text-gray-500 
+                  text-[10px] sm:text-[12px] bg-white pl-1 pr-1 lg:bg-transparent lg:pl-0 lg:pr-0'>
+              * For Special Needs Education (SNEd) Only *
+            </label>
+          )}
+        </label>
+
+
+        {/* LRN Number */}
+        <label className='flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200 group'>
+          <p className='text-[clamp(0.8rem,2vw,1.2rem)] lg:text-[14px] font-medium relative 
+                         text-gray-500 group-focus-within:text-sky-500 duration-200'>
+            LRN Number:
+          </p>
+          <input
+            type='number'
+            value={formData.enrollmentInfo?.lrn || ''}
+            onChange={handleLrnChange}
+            className='text-left text-[16px] font-medium border-0 focus:outline-none'
+          />
+        </label>
+      </div>
     </div>
   );
 }

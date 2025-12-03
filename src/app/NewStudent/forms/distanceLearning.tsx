@@ -61,9 +61,9 @@ export default function DistanceLearning({ formData, setFormData }: DistanceLear
   const selectedOptions = formData.distanceLearning?.selectedOptions || [];
 
   return (
-    <div className="w-full sm:w-1/2 m-5 flex flex-col p-3 justify-between items-center text-black bg-gray-100 shadow-gray-400 shadow-lg">
+    <div className="w-full flex flex-col p-5 justify-between items-center text-black">
       <header
-        className={`${poppins.className} text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[20px] w-full sm:text-start font-bold flex flex-col gap-5 border-b-2 pb-2 text-center`}
+        className={`${poppins.className} text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[18px] w-full sm:text-start font-bold flex flex-col gap-5 border-b-2 pb-2 text-center`}
       >
         If the school will implement other distance learning modalities aside
         from face-to-face instruction, what would you prefer for your child?

@@ -155,19 +155,76 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
         });
     };
 
+    const track = formData.personalInfo?.track || '';
+    const strand = formData.personalInfo?.strand || '';
+
 
   return (
-    <div className='w-full flex flex-col sm:w-1/2 text-black sm:text-lg gap-5 m-2 sm:p-5'>
-        <header className={`${poppins.className} sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] bg-gray-100 shadow-gray-400 shadow-lg rounded-lg flex flex-col gap-5 p-5`}>
+    <div className=' w-full h-full flex flex-col text-black  sm:text-lg gap-5 p-2 sm:p-5 overflow-auto'>
+        <div>
+            
+        </div>
+        {/* Track and Strand */}
+        <div className='flex flex-col sm:flex-row gap-2'>
+            {/* Track */}
+            <div className="flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200">
+              <label className={`${poppins.className} text-[16px] italic text-gray-500`}>
+                Track:
+              </label>
+              <select
+                className="hover:cursor-pointer"
+                value={track}
+                onChange={(e) => {
+                  handleChange('track')(e);
+                  setFormData({
+                    ...formData,
+                    personalInfo: { ...formData.personalInfo, track: e.target.value, strand: '' },
+                  });
+                }}
+              >
+                <option value="" disabled hidden>
+                  Select Track
+                </option>
+                <option value="Academic">Academic Track</option>
+                <option value="TVL">TVL Track</option>
+              </select>
+            </div>
+
+            {/* Strand */}
+            <div className="flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200">
+              <label className={`${poppins.className} text-[16px] italic text-gray-500`}>
+                Strand:
+              </label>
+              <select
+                className="hover:cursor-pointer"
+                value={strand}
+                onChange={handleChange('strand')}
+              >
+                <option value="" disabled hidden>
+                  Select Strand
+                </option>
+                {track === 'Academic' && (
+                  <>
+                    <option value="STEM">STEM</option>
+                    <option value="ABM">ABM</option>
+                    <option value="HUMSS">HUMSS</option>
+                  </>
+                )}
+                {track === 'TVL' && <option value="TVL-ICT">TVL-ICT</option>}
+              </select>
+            </div>
+        </div>
+
+        <header className={`${poppins.className} sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] flex flex-col gap-5 p-2`}>
             <span className='col-span-2'>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Email:</p>
-                <input 
+                <input
                     className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
-                    type="email" 
+                    type="email"
                     value={formData.personalInfo?.email || ''}
                     onChange={handleChange('email')}
                 />
-            </span>    
+            </span>
             <span>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Date</p>
                 <input 
@@ -190,7 +247,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
             </span>
         </header>
 
-        <div className='flex flex-col gap-2 font-medium bg-gray-100 rounded-lg p-5 shadow-gray-400 shadow-lg'>
+        <div className='flex flex-col gap-2 font-medium'>
             
             {/* FIRST NAME, LAST NAME, MIDDLE NAME */}
             <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
