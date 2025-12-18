@@ -15,7 +15,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
     "motion": "^12.23.24",
-    "next": "15.5.3",
+    "next": "^16.0.10",
     "pdf-lib": "^1.17.1",
     "philippines": "^1.0.0",
     "react": "19.1.0",
@@ -28,7 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.3",
+    "eslint-config-next": "^16.0.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
