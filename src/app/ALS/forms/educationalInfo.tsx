@@ -66,7 +66,7 @@ export default function EducationalInfo({ formData, setFormData }: EducationalIn
   const program = ['Basic Literacy', 'A&E Elementary', 'A&E Secondary', 'A&E Senior High'];
 
   return (
-    <div className="w-full sm:w-1/2 m-5 flex flex-col gap-4 sm:gap-5 p-3 justify-between items-center text-black bg-gray-100 shadow-gray-400 shadow-lg">
+    <div className=" m-5 flex flex-col gap-4 sm:gap-5 justify-between items-center text-black ">
       <header>
         <label
           className={`${poppins.className} text-[14px] sm:text-[20px] font-bold flex flex-col gap-5 border-b-2 pb-2 text-center`}

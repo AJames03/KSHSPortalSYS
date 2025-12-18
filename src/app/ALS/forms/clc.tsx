@@ -66,7 +66,7 @@ export default function Clc({ formData, setFormData }: ClcProps) {
   ];
 
   return (
-    <div className="w-full sm:w-1/2 m-5 flex flex-col p-3 justify-between items-center text-black bg-gray-100 shadow-gray-400 shadow-lg">
+    <div className="w-full m-5 flex flex-col p-3 justify-between items-center text-black">
       <header className="w-full border-b">
         <label
           className={`${poppins.className} text-[16px] sm:text-[24px] font-bold flex flex-col gap-5 pb-2 text-center`}

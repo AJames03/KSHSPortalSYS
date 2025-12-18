@@ -161,11 +161,8 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
 
   return (
     <div className=' w-full h-full flex flex-col text-black  sm:text-lg gap-5 p-2 sm:p-5 overflow-auto'>
-        <div>
-            
-        </div>
         {/* Track and Strand */}
-        <div className='flex flex-col sm:flex-row gap-2'>
+        <div className='flex flex-col sm:flex-row gap-2 '>
             {/* Track */}
             <div className="flex flex-col border-2 border-gray-300 focus-within:border-sky-500 p-2 rounded-md duration-200">
               <label className={`${poppins.className} text-[16px] italic text-gray-500`}>
@@ -215,8 +212,8 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
             </div>
         </div>
 
-        <header className={`${poppins.className} sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] flex flex-col gap-5 p-2`}>
-            <span className='col-span-2'>
+        <header className={`${poppins.className}  sm:grid sm:grid-cols-2 text-[clamp(0.8rem,2vw,1.2rem)] flex flex-col gap-5 `}>
+            <span className='col-span-2 border border-gray-300 p-2 rounded-md'>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Email:</p>
                 <input
                     className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
@@ -225,7 +222,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                     onChange={handleChange('email')}
                 />
             </span>
-            <span>
+            <span className=' border border-gray-300 p-2 rounded-md'>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>Date</p>
                 <input 
                     className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
@@ -236,7 +233,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                 />
             </span>
 
-            <span>
+            <span className=' border border-gray-300 p-2 rounded-md'>
                 <p className='text-[clamp(0.8rem,2vw,1.2rem)] font-bold'>LRN Number</p>
                 <input 
                     className='text-[clamp(0.8rem,2vw,1.2rem)] sm:text-[14px] font-medium border-0 focus:outline-none border-b w-full'
@@ -250,66 +247,61 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
         <div className='flex flex-col gap-2 font-medium'>
             
             {/* FIRST NAME, LAST NAME, MIDDLE NAME */}
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Last Name:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.lname}
-                    onChange={handleChange('lname')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>First Name:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.fname}
-                    onChange={handleChange('fname')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Middle Name:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.mname}
-                    onChange={handleChange('mname')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Suffix:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.ename}
-                    onChange={handleChange('ename')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.cn}
-                    onChange={handleChange('cn')}
-                />
-            </span>
+            <label className='italic font-bold'>*Full Name:*</label>
+            <div className='grid lg:grid-cols-4 gap-2'>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Last Name:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.lname}
+                        onChange={handleChange('lname')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>First Name:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.fname}
+                        onChange={handleChange('fname')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Middle Name:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.mname}
+                        onChange={handleChange('mname')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Suffix:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.ename}
+                        onChange={handleChange('ename')}
+                    />
+                </span>
+            </div>
 
 
-           
+
             {/* BIRTHDATE, AGE, SEX */}
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Birthdate:</label>
-                <input 
-                    type="date" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.bday}
-                    onChange={handleChange('bday')}
-                />
-            </span>
-            <div className='grid grid-cols-2 gap-10 sm:flex sm:flex-col sm:gap-2'>
-                <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+            <label className='italic font-bold'>*Personal Information:*</label>
+            <div className='flex flex-col lg:grid lg:grid-cols-2 gap-2'>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Birthdate:</label>
+                    <input 
+                        type="date" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.bday}
+                        onChange={handleChange('bday')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Age:</label>
                     <input 
                         type="number" 
@@ -318,7 +310,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         onChange={handleChange('age')}
                     />
                 </span>
-                <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
+                <span className=' border border-gray-300 p-2 rounded-md'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Sex:</label>
                     <span className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none flex gap-2 items-center `}>
                         <input 
@@ -338,60 +330,61 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         /> Female
                     </span>
                 </span>
-            </div>
 
             {/* PLACE OF BIRTH, RELIGION, MOTHER TONGUE */}
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Place of Birth:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.birthplace}
-                    onChange={handleChange('birthplace')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Religion:</label>
-                <input
-                    type="text"
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`}
-                    value={formData.personalInfo.religion}
-                    onChange={handleChange('religion')}
-                />
-            </span>
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Mother Tongue:</label>
-                <input 
-                    type="text" 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.motherTongue}
-                    onChange={handleChange('motherTongue')}    
-                />
-            </span>
+            
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Place of Birth:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.birthplace}
+                        onChange={handleChange('birthplace')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Religion:</label>
+                    <input
+                        type="text"
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`}
+                        value={formData.personalInfo.religion}
+                        onChange={handleChange('religion')}
+                    />
+                </span>
+                <span className=' border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Mother Tongue:</label>
+                    <input 
+                        type="text" 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.motherTongue}
+                        onChange={handleChange('motherTongue')}    
+                    />
+                </span>
 
-            <span className='grid grid-cols-2 sm:grid-cols-3 gap-2'>
-                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Civil Status:</label>
-                <select 
-                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
-                    value={formData.personalInfo.civilStatus} 
-                    onChange={(e) =>
-                        setFormData(prev => ({
-                        ...prev,
-                        personalInfo: { ...prev.personalInfo, civilStatus: e.target.value },
-                        }))
-                    }
-                >
-                        <option value="" disabled>Select Civil Status</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Separated">Separated</option>
-                        <option value="Divorced">Solo Parent</option>
-                        <option value="Widowed">Widow/er</option>
-                </select>
-            </span>
+                <span className='col-span-2 border border-gray-300 p-2 rounded-md'>
+                    <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Civil Status:</label>
+                    <select 
+                        className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                        value={formData.personalInfo.civilStatus} 
+                        onChange={(e) =>
+                            setFormData(prev => ({
+                            ...prev,
+                            personalInfo: { ...prev.personalInfo, civilStatus: e.target.value },
+                            }))
+                        }
+                    >
+                            <option value="" disabled>Select Civil Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                            <option value="Separated">Separated</option>
+                            <option value="Divorced">Solo Parent</option>
+                            <option value="Widowed">Widow/er</option>
+                    </select>
+                </span>
+            </div>
 
             {/* BELONG TO ANY INDIGENOUS PEOPLE */}
-            <span className='grid grid-cols-4 sm:grid-cols-3 gap-2'>
+            <span className='border border-gray-300 p-2 rounded-md grid grid-cols-4 sm:grid-cols-3 gap-2'>
                 <label className={`${poppins.className} text-[12px] sm:text-[14px] col-span-4 italic text-gray-500`}>Belong to any Indigenous People Community/Indigenous Cultural Community?</label>
                 <div className='flex flex-row col-span-5 justify-around'>
                     <span className='flex gap-2'>
@@ -456,7 +449,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
             </span>
 
             {/* 4PS */}
-            <span className='grid grid-cols-4 sm:grid-cols-3 gap-2'>
+            <span className='border border-gray-300 p-2 rounded-md grid grid-cols-4 sm:grid-cols-3 gap-2'>
                 <label className={`${poppins.className} text-[12px] sm:text-[14px] col-span-4 italic text-gray-500`}>Is your family a beneficiary of 4Ps?</label>
                 <div className='flex flex-row col-span-5 justify-around'>
                     <span className='flex gap-2'>
@@ -519,11 +512,21 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                     </div>
                 )}
             </span>
+            
+            <span className=' border border-gray-300 p-2 rounded-md'>
+                <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>Contact Number:</label>
+                <input 
+                    type="text" 
+                    className={`${poppins.className} text-[12px] sm:text-[16px] col-span-2 font-medium border-0 focus:outline-none border-b w-full`} 
+                    value={formData.personalInfo.cn}
+                    onChange={handleChange('cn')}
+                />
+            </span>
 
             {/* CURRENT ADDRESS */}
             <div className='flex flex-col gap-2 mt-4 sm:grid sm:grid-cols-3 sm:gap-3 sm:mt-5'>
                 <label className={`${poppins.className} col-span-3 font-bold`}>CURRENT ADDRESS</label>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>House No.</label>
                     <input 
                         type="text" 
@@ -532,7 +535,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         onChange={handleChange('houseNumber')}
                     />
                 </span>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Sitio/Street Name:</label>
                     <input 
                         type="text" 
@@ -541,7 +544,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         onChange={handleChange('streetName')}
                     />
                 </span>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Region:</label>
                     <select
                         className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -556,7 +559,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         ))}
                     </select>
                 </span>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Province:</label>
                     <select
                         className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -571,7 +574,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         ))}
                     </select>
                 </span>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Municipality/City:</label>
                     <select
                         className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -586,7 +589,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         ))}
                     </select>
                 </span>
-                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                     <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Barangay:</label>
                     <select
                         className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -603,7 +606,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                 </span>
                 
                 <div className='flex flex-col gap-2 sm:col-span-3 sm:grid sm:grid-cols-4 sm:gap-3'>
-                    <span className='sm:grid sm:grid-cols-2 gap-2'>
+                    <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                         <label className={`${poppins.className} text-[12px] sm:text-[16px] sm:col-span-4 italic text-gray-500`}>Zip Code:</label>
                         <input 
                             type="number" 
@@ -612,7 +615,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                             onChange={handleChange('zipCode')}
                         />
                     </span>
-                    <span className='sm:grid sm:grid-cols-2 gap-2'>
+                    <span className='border border-gray-300 p-2 rounded-md sm:grid sm:grid-cols-2 gap-2'>
                         <label className={`${poppins.className} text-[12px] sm:text-[16px] sm:col-span-3 italic text-gray-500`}>Country:</label>
                         <input
                             type="text"
@@ -623,69 +626,71 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                         />
                     </span>
                 </div>
-                <div className='col-span-3 grid grid-cols-2'>
-                    <label className={`${poppins.className} col-span-3 font-bold`}>PERMAMENT ADDRESS</label>
-                    <label className={`${poppins.className} text-[12px] col-span-3 sm:text-[16px] italic text-gray-500`}>Same with your Current Address?</label>
-                    <div className='flex flex-row col-span-5 justify-around'>
-                        <span className='flex gap-2'>
-                            <input 
-                                type="radio" 
-                                name="address" 
-                                className='accent-blue-700 text-sm' 
-                                value="Yes"
-                                checked={formData.personalInfo.selectAddress === 'Yes'}
-                                onChange={(c) =>{
-                                    setFormData({
-                                        ...formData,
-                                        personalInfo: {
-                                            ...formData.personalInfo,
-                                            selectAddress: c.target.value as 'Yes' | 'No',  
-                                            pHN: formData.personalInfo.houseNumber || '',
-                                            pSN: formData.personalInfo.streetName || '',
-                                            pbrgy: formData.personalInfo.barangay || '',
-                                            pMunicipal: formData.personalInfo.municipality || '',
-                                            pProvince: formData.personalInfo.province || '',
-                                            pCountry: formData.personalInfo.country || '',
-                                            pZipCode: formData.personalInfo.zipCode || '',
-                                        },
-                                    });
-                                }}
-                            />
-                            <label className={`${poppins.className} text-[12px] sm:text-[16px] font-medium`}>Yes</label>
-                        </span>
-                        <span className='flex gap-2'>
-                            <input 
-                                type="radio" 
-                                name="address" className='accent-blue-700 text-sm' 
-                                value="No" 
-                                checked={formData.personalInfo.selectAddress === 'No'} 
-                                onChange={(c) => {
-                                    setFormData({
-                                        ...formData,
-                                        personalInfo: {
-                                            ...formData.personalInfo,
-                                            selectAddress: c.target.value as 'Yes' | 'No',
-                                            pHN: formData.personalInfo.pHN || '', 
-                                            pSN: formData.personalInfo.pSN || '', 
-                                            pbrgy: formData.personalInfo.pbrgy || '', 
-                                            pMunicipal: formData.personalInfo.pMunicipal || '', 
-                                            pProvince: formData.personalInfo.pProvince || '', 
-                                            pCountry: formData.personalInfo.pCountry || '', 
-                                            pZipCode: formData.personalInfo.pZipCode || '',    
-                                        },
-                                    });
+                <div className='col-span-3 '>
+                    <label className={`${poppins.className} col-span-3 font-bold  `}>PERMAMENT ADDRESS</label>
+                    <div className='border border-gray-300 p-2 rounded-md'>
+                        <label className={`${poppins.className} text-[12px] col-span-3 sm:text-[16px] italic text-gray-500`}>Same with your Current Address?</label>
+                        <div className='flex flex-row col-span-5 justify-around '>
+                            <span className='flex gap-2'>
+                                <input 
+                                    type="radio" 
+                                    name="address" 
+                                    className='accent-blue-700 text-sm' 
+                                    value="Yes"
+                                    checked={formData.personalInfo.selectAddress === 'Yes'}
+                                    onChange={(c) =>{
+                                        setFormData({
+                                            ...formData,
+                                            personalInfo: {
+                                                ...formData.personalInfo,
+                                                selectAddress: c.target.value as 'Yes' | 'No',  
+                                                pHN: formData.personalInfo.houseNumber || '',
+                                                pSN: formData.personalInfo.streetName || '',
+                                                pbrgy: formData.personalInfo.barangay || '',
+                                                pMunicipal: formData.personalInfo.municipality || '',
+                                                pProvince: formData.personalInfo.province || '',
+                                                pCountry: formData.personalInfo.country || '',
+                                                pZipCode: formData.personalInfo.zipCode || '',
+                                            },
+                                        });
+                                    }}
+                                />
+                                <label className={`${poppins.className} text-[12px] sm:text-[16px] font-medium`}>Yes</label>
+                            </span>
+                            <span className='flex gap-2'>
+                                <input 
+                                    type="radio" 
+                                    name="address" className='accent-blue-700 text-sm' 
+                                    value="No" 
+                                    checked={formData.personalInfo.selectAddress === 'No'} 
+                                    onChange={(c) => {
+                                        setFormData({
+                                            ...formData,
+                                            personalInfo: {
+                                                ...formData.personalInfo,
+                                                selectAddress: c.target.value as 'Yes' | 'No',
+                                                pHN: formData.personalInfo.pHN || '', 
+                                                pSN: formData.personalInfo.pSN || '', 
+                                                pbrgy: formData.personalInfo.pbrgy || '', 
+                                                pMunicipal: formData.personalInfo.pMunicipal || '', 
+                                                pProvince: formData.personalInfo.pProvince || '', 
+                                                pCountry: formData.personalInfo.pCountry || '', 
+                                                pZipCode: formData.personalInfo.pZipCode || '',    
+                                            },
+                                        });
+                                        }
                                     }
-                                }
-                            />
-                            <label className={`${poppins.className} text-[12px] sm:text-[16px] font-medium`}>No</label>
-                        </span>
+                                />
+                                <label className={`${poppins.className} text-[12px] sm:text-[16px] font-medium`}>No</label>
+                            </span>
+                        </div>
                     </div>
 
 
                     {/* NOT PERMAMENT ADDRESS */}
                     {formData.personalInfo.selectAddress === 'No' && (
-                        <div className='col-span-3 flex flex-col gap-2 mt-4 border border-gray-500 p-2 rounded-lg sm:grid sm:grid-cols-3 sm:gap-3 sm:mt-5'>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                        <div className='col-span-3 flex flex-col gap-2 mt-4  sm:grid sm:grid-cols-3 sm:gap-3 sm:mt-5'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>House No.</label>
                                 <input 
                                     type="text" 
@@ -694,7 +699,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     onChange={handleChange('pHN')}
                                 />
                             </span>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Sitio/Street Name:</label>
                                 <input 
                                     type="text" 
@@ -703,7 +708,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     onChange={handleChange('pSN')}
                                 />
                             </span>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Region:</label>
                                 <select
                                     className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -735,7 +740,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ))}
                                 </select>
                             </span>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Province:</label>
                                 <select
                                     className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -766,7 +771,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ))}
                                 </select>
                             </span>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Municipality/City:</label>
                                 <select
                                     className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -796,7 +801,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                     ))}
                                 </select>
                             </span>
-                            <span className='sm:grid sm:grid-cols-2 gap-2'>
+                            <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                 <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-4 italic text-gray-500`}>Barangay:</label>
                                 <select
                                     className={`${poppins.className} text-[12px] sm:text-[16px] col-span-3 font-medium border-0 focus:outline-none border-b w-full`}
@@ -822,7 +827,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                             </span>
                             
                             <div className='flex flex-col gap-2 sm:col-span-3 sm:grid sm:grid-cols-4 sm:gap-3'>
-                                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                                <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                     <label className={`${poppins.className} text-[12px] sm:text-[16px] sm:col-span-4 italic text-gray-500`}>Zip Code:</label>
                                     <input 
                                         type="text" 
@@ -831,7 +836,7 @@ export default function PersonalInfo({ formData, setFormData }: PersonalInfoProp
                                         onChange={handleChange('pZipCode')}
                                     />
                                 </span>
-                                <span className='sm:grid sm:grid-cols-2 gap-2'>
+                                <span className='sm:grid sm:grid-cols-2 gap-2 border border-gray-300 p-2 rounded-md'>
                                     <label className={`${poppins.className} text-[12px] sm:text-[16px] sm:col-span-3 italic text-gray-500`}>Country:</label>
                                     <input
                                         type="text"
