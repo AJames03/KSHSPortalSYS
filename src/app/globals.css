@@ -51,3 +51,103 @@ body {
 .animate-exit2 {
   animation: exit2 1s linear both;
 }
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+}
+.animate-slideUp {
+  animation: slideUp 4s ease-in-out forwards;
+}
+
+@keyframes programSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+
+  /* mas mabagal ang pagpasok */
+  5% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* mas matagal na hinto */
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* exit */
+  100% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+}
+
+.animate-programSlideUp {
+  animation: programSlideUp 5s ease-in-out forwards;
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-120%);
+  }
+}
+
+.animate-sweep {
+  animation: sweep 5s ease-in-out infinite;
+}
+
+@keyframes sweepskeleton {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-sweepskeleton {
+  animation: sweepskeleton 1s ease-in infinite;
+}
+
+@keyframes fadeUpAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(50px); /* simula sa baba */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* dulo sa original position */
+  }
+}
+
+.animate-fadeUpAppear {
+  animation: fadeUpAppear 1.5s ease-out forwards;
+}
+
+
+
+
+

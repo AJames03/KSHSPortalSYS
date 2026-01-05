@@ -7,14 +7,14 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
-
 import PersonalInfo from "@/app/ALS/forms/personalInfo";
 import ParentInfo from "@/app/ALS/forms/parentInformation";
 import PWDInfo from "@/app/ALS/forms/pwdInfo";
 import EducationalInfo from "@/app/ALS/forms/educationalInfo";
 import CLC from "@/app/ALS/forms/clc";
 import DistanceLearning from "@/app/ALS/forms/distanceLearning";
-import Loading from "@/app/NewStudent/components/loading"
+import Loading from "@/app/components/page"
+import Logo from "@/app/favicon.ico"
 // Fonts
 const arvo = Arvo({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["200", "400"] });
@@ -413,38 +413,23 @@ export default function Page() {
 
   // --- Render ---
   return (
-    <div className="min-h-screen flex flex-col bg-gray-200  items-center">
-      {/* Header */}
-      <label
-              onClick={() => setExitModal(true)} 
-              className='w-full top-2 right-2 p-2 bg-blue-800 text-white flex flex-row gap-3 text-[12px] lg:text-[14px] cursor-pointer'>
-                <i className="bi bi-box-arrow-left"></i>
-                <p>Back to Home Page</p>
-              </label>
-            <div className="text-center z-50 bg-gradient-to-b  from-blue-800 via-blue-700 to-sky-500 text-white flex justify-center items-center flex-col sm:flex-row p-2 gap-2 w-full sticky top-0">
-              <Image
-                src="/KSHS_LOGO.png"
-                alt="logo"
-                width={100}
-                height={100}
-                className="w-10 h-10 sm:w-10 sm:h-10 lg:w-32 lg:h-32"
+    <div className={`${poppins.className} w-screen h-screen`}>
+          {/* Header */}
+          <div className='fixed w-full shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-2 flex justify-between items-center'>
+            <div className='flex flex-row justify-center items-center gap-2'>
+              <Image 
+                src={Logo}
+                alt='Logo'
+                className='w-10 h-10'
               />
-              <div className={`${arvo.className} flex flex-col justify-center sm:text-2xl`}>
-                <label>KASIGLAHAN VILLAGE</label>
-                <label>SENIOR HIGH SCHOOL</label>
-                <div className="flex bg-white pl-2 pr-2 text-black justify-center items-center rounded-md">
-                  <label className={`${poppins.className} text-[10px] sm:text-sm text-amber-600`}>STEM</label>
-                  <i className="bi bi-dot"></i>
-                  <label className={`${poppins.className} text-[10px] sm:text-sm text-green-600`}>ABM</label>
-                  <i className="bi bi-dot"></i>
-                  <label className={`${poppins.className} text-[10px] sm:text-sm text-blue-700`}>TVL-ICT</label>
-                  <i className="bi bi-dot"></i>
-                  <label className={`${poppins.className} text-[10px] sm:text-sm text-green-800`}>HUMSS</label>
-                  <i className="bi bi-dot"></i>
-                  <label className={`${poppins.className} text-[10px] sm:text-sm text-orange-500`}>ALS</label>
-                </div>
-              </div>
+              <p className='font-semibold'>KVSHS Enrollment Form</p>
             </div>
+            <label
+              onClick={() => setExitModal(true)} 
+            >
+                <i className="bi bi-box-arrow-left"></i>
+            </label>
+          </div>
       
             {exitModal && (
               <div className='fixed z-500 flex justify-center items-center h-screen w-screen bg-black/10 backdrop-blur-sm'>
@@ -485,12 +470,10 @@ export default function Page() {
             {isLoading && <Loading />}
 
       {/* Form */}
-      <div className="flex justify-center  bg-white w-full lg:w-1/2">
-        <span className='fixed bg-white w-1/2 h-full z-0' />
-        <div className="w-full max-w-3xl z-1">
+      <div className='pt-15 w-full h-full flex justify-center items-center'>
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col flex-1bg-white overflow-hidden "
+            className="grid grid-rows-[1fr_80px] md:grid-rows-[1fr_60px] w-full md:w-[80%] lg:w-1/2 h-full "
           >
             <div className="flex-1 overflow-auto ">
               {currentStep === 1 && <PersonalInfo formData={formData} setFormData={setFormData} />}
@@ -513,7 +496,7 @@ export default function Page() {
                 </button>
               )}
 
-              {currentStep < 1 && (
+              {currentStep < 6 && (
                 <button
                   type="button"
                   onClick={handleNext}
@@ -523,7 +506,7 @@ export default function Page() {
                 </button>
               )}
 
-              {currentStep === 1 && (
+              {currentStep === 6 && (
                 <button
                   type="submit"
                   className="bg-green-600 w-full sm:w-1/3 text-white px-6 py-2 hover:bg-green-700 cursor-pointer"
@@ -533,7 +516,6 @@ export default function Page() {
               )}
             </div>
           </form>
-        </div>
       </div>
     </div>
   );
