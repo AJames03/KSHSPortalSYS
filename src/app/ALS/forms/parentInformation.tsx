@@ -82,7 +82,7 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
             </span>
             <span className="col-span-3">
               <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>
-                Contact Number:
+                Occupation:
               </label>
               <input 
                 type="number"
@@ -135,7 +135,7 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
             </span>
             <span className="col-span-3">
               <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>
-                Contact Number:
+                Occupation:
               </label>
               <input 
                 type="number"
@@ -188,7 +188,7 @@ export default function ParentInformation({ formData, setFormData }: ParentInfoP
             </span>
             <span className="col-span-3">
               <label className={`${poppins.className} text-[12px] sm:text-[16px] col-span-1 italic text-gray-500`}>
-                Contact Number:
+                Occupation:
               </label>
               <input 
                 type="number"

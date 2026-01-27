@@ -12,6 +12,7 @@ import KVSHS from '@/app/images/kvshs.jpg'
 import programPromotion from '@/app/images/Program_students.png'
 import EnrollmentModal from '@/app/enrollmentForm/components/enrollmodal'
 import Loading from '@/app/components/page'
+import Learnmore from '@/app/enrollmentForm/learnmore/page'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -170,7 +171,8 @@ export default function Page() {
               '>
               Enroll Now
             </button>
-            <label className='cursor-pointer hover:bg-gray-100 rounded-md p-3 px-10'>Learn More</label>
+            <label className='cursor-pointer hover:bg-gray-100 rounded-md p-3 px-10'
+              onClick={() => navigateWithLoading('/enrollmentForm/learnmore')}>Learn More</label>
           </div>
 
           <span className='flex flex-row p-15 justify-center'>
@@ -212,33 +214,11 @@ export default function Page() {
               >
                 {programWords[program]}
               </span>
-            </div>
-
-            {/* Rotating Words */}
-            <div className="mt-2 h-[clamp(36px,4vw,60px)] overflow-hidden flex justify-center items-center">
-              <span
-                key={program}
-                className={`${poppins.className} text-white
-                          text-[clamp(12px,3.5vw,18px)] 
-                          leading-tight text-center
-                          animate-programSlideUp`}
-              >
-                {acronym[program]}
-              </span>
-            </div>
-            <div className={`${poppins.className} flex flex-row  w-[40%]
-                  p-3 rounded-4xl mt-10  gap-2 items-center justify-center
-                  bg-gradient-to-l from-blue-700 to-blue-900 text-white
-                  border-2 hover:border-sky-200`}
-                onClick={() => router.push('/enrollmentForm/strand')}
-            >
-              <i className="bi bi-info-circle"></i>
-              <p className='text-center cursor-default'>Learn About the Strand</p>
-            </div>
+            </div> 
           </div>
         </div>
-        
-        <div className=' bg-cover bg-center w-[clamp(300px,50vw,600px] h-[clamp(300px,50vw,600px] aspect-auto' style={{ backgroundImage: `url(${programPromotion.src})` }}>
+
+        <div className='bg-cover bg-center w-[clamp(300px,50vw,600px)] h-[clamp(300px,50vw,600px)] aspect-auto' style={{ backgroundImage: `url(${programPromotion.src})` }}>
           
         </div>
       </div>
@@ -340,4 +320,5 @@ export default function Page() {
       {loading && <Loading />}
     </div>
   )
+
 }

@@ -22,6 +22,7 @@ export default function EnrollNextSem() {
     const [lrn, setLrn] = useState('');
     const [learnerType, setLearnerType] = useState('');
     const [name, setName] = useState('');
+    const [studentData, setStudentData] = useState<any>(null);
     const [eligibilityResult, setEligibilityResult] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const currentYear = new Date().getFullYear();
@@ -52,6 +53,7 @@ export default function EnrollNextSem() {
                 } else if (data) {
                     const fullName = `${data.lname}, ${data.fname} ${data.mname || ''} ${data.ename || ''}`.trim();
                     setName(fullName);
+                    setStudentData(data);
                 }
             };
             fetchStudentName();
@@ -73,6 +75,34 @@ export default function EnrollNextSem() {
             console.error('Error checking eligibility:', error);
         } else {
             setEligibilityResult(data);
+        }
+    };
+
+    const handleEnrollment = async () => {
+        if (!studentData) return;
+
+        const table = learnerType === 'ALS' ? 'ALS' : 'NewStudents';
+        let updates: any = { enrollment_status: 'Pending' };
+
+        if (studentData.semester === '1st') {
+            updates.semester = '2nd';
+        } else if (studentData.semester === '2nd') {
+            updates.semester = '1st';
+            if (String(studentData.gradeLevel) !== '12') {
+                updates.gradeLevel = '12';
+            }
+        }
+
+        const { error } = await supabase
+            .from(table)
+            .update(updates)
+            .eq('lrn', lrn);
+
+        if (error) {
+            console.error('Error updating enrollment:', error);
+        } else {
+            alert('Successfully enrolled for next semester!');
+            window.location.reload();
         }
     };
 
@@ -133,6 +163,41 @@ export default function EnrollNextSem() {
                                 alt='Logo' 
                                 className='absolute bottom-0 right-0 w-30 h-30 md:w-60 md:h-60 scale-x-[-1]'
                             />
+                    </div>
+
+                    <div>
+                        <div className='flex flex-col justify-center w-full h-full'>  
+                            <div className='mt-4 flex flex-col lg:w-[30%] gap-2'>
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={loading}
+                                    className={`${poppins.className} bg-blue-600 text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-blue-700 transition-colors disabled:opacity-50`}
+                                >
+                                    {loading ? 'CHECKING...' : 'CHECK ELIGIBILITY'}
+                                </button>
+                                
+                                {eligibilityResult?.eligible && (
+                                    <motion.div 
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.5 }}
+                                        className='bg-zinc-100 p-5 flex flex-col justify-center items-center rounded-md'>
+                                        <label>{name}</label>
+                                        <label>{lrn}</label>
+                                        <label>{learnerType} Student</label>
+                                        <button
+                                            onClick={handleEnrollment}
+                                            className={`${poppins.className} bg-green-600 text-white px-6 py-2 rounded-md font-bold shadow-md hover:bg-green-700 transition-colors`}
+                                        >
+                                            Enroll For Next Semester
+                                            
+                                        </button>
+                                    </motion.div>
+                                    
+                                )}
+                            </div>
+                        
+                        </div>
                     </div>
                 </div>
             ) : (

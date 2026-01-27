@@ -384,6 +384,8 @@ export default function Page() {
       ),
 
       enrollment_status: "Pending",
+      schoolYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+      semester: "1st",
     });
 
     try {
@@ -520,4 +522,3 @@ export default function Page() {
     </div>
   );
 }
-

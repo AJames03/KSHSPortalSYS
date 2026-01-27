@@ -22,6 +22,7 @@ export default function Grades() {
   const [name, setName] = useState('')
   const [section, setSection] = useState('')
   const [age, setAge] = useState('')
+  const [gender, setGender] = useState('')
   const [schoolYear, setSchoolYear] = useState('')
   const [track, setTrack] = useState('')
   const [strand, setStrand] = useState('')
@@ -29,6 +30,8 @@ export default function Grades() {
   const [secondGeneralAverage, setSecondGeneralAverage] = useState('')
   const [finalAverage, setFinalAverage] = useState('')
   const [finalRemarks, setFinalRemarks] = useState('')
+  const [selectedGradeLevel, setSelectedGradeLevel] = useState('11')
+  const [standings, setStandings] = useState<any[]>([])
 
   const container = {
     hidden: {},
@@ -52,8 +55,10 @@ export default function Grades() {
   useEffect(() => {
     if (lrn && learnerType) {
       const fetchStudentInfo = async () => {
+        const tableName = learnerType === 'ALS' ? 'ALS' : 'NewStudents'
+
         const { data, error } = await supabase
-          .from('NewStudents')
+          .from(tableName)
           .select('*')
           .eq('lrn', lrn)
           .single()
@@ -63,11 +68,13 @@ export default function Grades() {
         } else if (data) {
           const fullName = `${data.lname}, ${data.fname} ${data.mname} ${data.ename}`
           setName(fullName)
-          setSection(`${data.gradeLevel}, ${data.strand}, ${data.section}`)
+          setSection(`${data.gradeLevel} - ${data.strand} - ${data.section}`)
           setAge(`${data.age}`)
+          setGender(`${data.sex}`)
           setSchoolYear(`${data.schoolYear}`)
           setTrack(data.track)
           setStrand(data.strand)
+          if (data.gradeLevel) setSelectedGradeLevel(String(data.gradeLevel))
         }
       }
 
@@ -126,12 +133,9 @@ export default function Grades() {
 
         if (error) {
           console.error('Error fetching general average:', error)
-        } else if (data && data.length > 0) {{
-          setFirstGeneralAverage(data[0].first_sem_general_average)
-          setSecondGeneralAverage(data[0].second_sem_general_average)
-          setFinalAverage(data[0].final_grade)
-          setFinalRemarks(data[0].final_remarks)
-        }}
+        } else if (data) {
+          setStandings(data)
+        }
         setLoading(false)
       }
 
@@ -139,14 +143,33 @@ export default function Grades() {
     }
   }, [lrn])
 
+  // Update averages based on selected grade level
+  useEffect(() => {
+    const standing = standings.find((s: any) => String(s.grade_level) === selectedGradeLevel)
+    if (standing) {
+      setFirstGeneralAverage(standing.first_sem_general_average)
+      setSecondGeneralAverage(standing.second_sem_general_average)
+      setFinalAverage(standing.final_grade)
+      setFinalRemarks(standing.final_remarks)
+    } else {
+      setFirstGeneralAverage('')
+      setSecondGeneralAverage('')
+      setFinalAverage('')
+      setFinalRemarks('')
+    }
+  }, [selectedGradeLevel, standings])
+
   // Filter grades by semester
-  const CorefirstSemesterGrades = grades.filter(g => g.subjects?.semester === '1st' && g.subjects?.classification === 'Core Subject')
-  const AppliedfirstSemesterGrades = grades.filter(g => g.subjects?.semester === '1st' && g.subjects?.classification === 'Applied Subject')
-  const SpecializedfirstSemesterGrades = grades.filter(g => g.subjects?.semester === '1st' && g.subjects?.classification === 'Specialized Subject')
+  const filterGrades = (sem: string, classification: string) => 
+    grades.filter(g => g.subjects?.semester === sem && g.subjects?.classification === classification && String(g.subjects?.grade_level) === selectedGradeLevel)
+
+  const CorefirstSemesterGrades = filterGrades('1st', 'Core Subject')
+  const AppliedfirstSemesterGrades = filterGrades('1st', 'Applied Subject')
+  const SpecializedfirstSemesterGrades = filterGrades('1st', 'Specialized Subject')
   
-  const CoresecondSemesterGrades = grades.filter(g => g.subjects?.semester === '2nd' && g.subjects?.classification === 'Core Subject')
-  const AppliedsecondSemesterGrades = grades.filter(g => g.subjects?.semester === '2nd' && g.subjects?.classification === 'Applied Subject')
-  const SpecializedsecondSemesterGrades = grades.filter(g => g.subjects?.semester === '2nd' && g.subjects?.classification === 'Specialized Subject')
+  const CoresecondSemesterGrades = filterGrades('2nd', 'Core Subject')
+  const AppliedsecondSemesterGrades = filterGrades('2nd', 'Applied Subject')
+  const SpecializedsecondSemesterGrades = filterGrades('2nd', 'Specialized Subject')
 
   const renderGradesTable = (semesterGrades: any[], semester: '1st' | '2nd') => (
     semesterGrades.length > 0 ? (
@@ -190,20 +213,22 @@ export default function Grades() {
 
           {/* Student Info */}
           <div className='mt-2 md:mt-5'>
-            <div className='text-[clamp(10px,1vw,14px)] grid grid-cols-1 gap-2'>
+            <div className='text-[clamp(8px,1vw,14px)] grid grid-cols-1 gap-2'>
               <span className='grid grid-cols-[30px_1fr]  lg:grid-cols-[50px_1fr] gap-2'>
                 <strong>NAME:</strong>
                 <p className='w-full text-center border-b'>{name}</p>
               </span>
 
-              <span className='grid grid-cols-[30px_1fr_75px_1fr] lg:grid-cols-[50px_1fr_100px_1fr] gap-2'>
+              <span className='grid grid-cols-[30px_1fr_30px_1fr] lg:grid-cols-[50px_1fr_100px_1fr] gap-2'>
                 <strong>AGE:</strong>
                 <p className='w-full text-center border-b'>{age}</p>
-                <strong>SCHOOL YEAR:</strong>
-                <p className='w-full text-center border-b'>{schoolYear}</p>
+                <strong>SEX:</strong>
+                <p className='w-full text-center border-b'>{gender}</p>
               </span>
 
-              <span className='grid grid-cols-[110px_1fr] lg:grid-cols-[150px_1fr] gap-2 items-center'>
+              
+
+              <span className='grid grid-cols-[85px_1fr] lg:grid-cols-[150px_1fr] gap-2 items-center'>
                 <strong>TRACK AND STRAND:</strong>
                 <p className='w-full text-[clamp(8px,1vw,11px)] text-center border-b'>
                   {track} -{' '}
@@ -218,6 +243,18 @@ export default function Grades() {
                     : strand}
                 </p>
               </span>
+            </div>
+
+            {/* Grade Level Selection */}
+            <div className="flex justify-end mt-2 px-2">
+              <select
+                value={selectedGradeLevel}
+                onChange={(e) => setSelectedGradeLevel(e.target.value)}
+                className="border border-gray-300 rounded-md p-1 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="11">Grade 11</option>
+                <option value="12">Grade 12</option>
+              </select>
             </div>
 
             {/* First Semester Grades Table */}

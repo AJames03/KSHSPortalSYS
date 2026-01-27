@@ -4,6 +4,7 @@
   import { supabase } from '@/lib/supabaseClient';
   import { Poppins } from 'next/font/google';
   import { generateNewStudentPDF } from '@/app/enrollmentForm/studentStatus/lib/generateNewStudentPDF';
+  import { generateAlsStudentPDF } from '@/app/enrollmentForm/studentStatus/lib/generateAlsStudentPDF';
   import { motion, Variants } from 'framer-motion';
   import Loading from '@/app/components/page';
   import Study from '@/app/images/study.png'
@@ -42,8 +43,9 @@
     useEffect(() => {
       if (lrn && learnerType) {
         const fetchStudentName = async () => {
+          const tableName = learnerType === 'ALS' ? 'ALS' : 'NewStudents';
           const { data, error } = await supabase
-            .from('NewStudents')
+            .from(tableName)
             .select('*')
             .eq('lrn', lrn)
             .single();
@@ -74,8 +76,9 @@
 
     // Save sa database
     try {
+      const tableName = learnerType === 'ALS' ? 'ALS' : 'NewStudents';
       const { data, error } = await supabase
-        .from('NewStudents')
+        .from(tableName)
         .update({ psa: enterPSA })
         .eq('lrn', lrn);
 
@@ -113,7 +116,11 @@
         alert('No LRN found');
         return;
       }
-      await generateNewStudentPDF(lrn);
+      if (learnerType === 'ALS') {
+        await generateAlsStudentPDF(lrn);
+      } else {
+        await generateNewStudentPDF(lrn);
+      }
     };
 
     // Framer Motion variants
@@ -275,6 +282,7 @@
             </motion.div>
 
             {/* PSA */}
+            {learnerType !== 'ALS' && (
             <motion.div
               variants={itemVariants}
             >
@@ -342,6 +350,7 @@
 
               )}
             </motion.div>
+            )}
 
 
           </motion.div>
