@@ -27,12 +27,7 @@ export async function generateAlsStudentPDF(lrn: string) {
     return;
   }
 
-  const addedAt = data.date || '';
-  
-  if (!addedAt) {
-    console.error('No added_at date found');
-    return;
-  }
+  const addedAt = data.date || new Date().toISOString();
 
   // Assuming added_at is in YYYY-MM-DD format or ISO string (e.g., 2023-10-25T...)
   const dateStr = addedAt.split('T')[0];
@@ -942,6 +937,476 @@ export async function generateAlsStudentPDF(lrn: string) {
       size: 10,
       rotate: pdfdegrees(-90),
       color: rgb(0, 0, 0),
+    });
+  }
+
+  // PWD ID
+  const pwdIdStr = (data.pwdID || '').toUpperCase();
+  if (pwdIdStr === 'YES') {
+    page2.drawSquare({
+      x: 403,
+      y: 159,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else {
+    // This handles 'No' or empty cases
+    page2.drawSquare({
+      x: 365,
+      y: 159,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // Education Information
+  if (data.education_information === 'Elementary (Kinder)') {
+    page2.drawSquare({
+      x: 545.5,
+      y: 241.8,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 1)') {
+    page2.drawSquare({
+      x: 499,
+      y: 241,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 3)') {
+    page2.drawSquare({
+      x: 438,
+      y: 241,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 2)') {
+    page2.drawSquare({
+      x: 499,
+      y: 255.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 4)') {
+    page2.drawSquare({
+      x: 438,
+      y: 255.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 5)') {
+    page2.drawSquare({
+      x: 379,
+      y: 241,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Elementary (Grade 6)') {
+    page2.drawSquare({
+      x: 378.5,
+      y: 255.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Junior High (Grade 8)') {
+    page2.drawSquare({
+      x: 305,
+      y: 257.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Junior High (Grade 10)') {
+    page2.drawSquare({
+      x: 228,
+      y: 257.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Junior High (Grade 7)') {
+    page2.drawSquare({
+      x: 305,
+      y: 243.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Junior High (Grade 9)') {
+    page2.drawSquare({
+      x: 228,
+      y: 243.8,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.education_information === 'Senior High (Grade 11)') {
+    page2.drawSquare({
+      x: 135.8,
+      y: 243.8,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // OSY Reason
+  if (data.OSY === 'No School In Barangay') {
+    page2.drawSquare({
+      x: 539,
+      y: 315,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.OSY === 'School Too Far From Home') {
+    page2.drawSquare({
+      x: 539,
+      y: 329,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.OSY === 'Needed To Help Family') {
+    page2.drawSquare({
+      x: 539,
+      y: 344,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.OSY === 'Unable To Pay For Miscellaneous And Other Expenses') {
+    page2.drawSquare({
+      x: 539,
+      y: 358,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.OSY) {
+    page2.drawSquare({
+      x: 539,
+      y: 363,
+      size: 10,
+      rotate: pdfdegrees(0),
+      color: rgb(0, 0, 0),
+    });
+    page2.drawText(data.OSY.toUpperCase(), {
+      x: 460,
+      y: 369,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // ALS Attended
+  if (data.als_attended === 'No' || data.als_attended === '') {
+    page2.drawSquare({
+      x: 89.5,
+      y: 288.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.als_attended) {
+    page2.drawSquare({
+      x: 125.5,
+      y: 288.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+
+    if (data.als_attended === 'Basic Literacy') {
+      page2.drawSquare({
+        x: 284,
+        y: 318,
+        size: 10,
+        rotate: pdfdegrees(-90),
+        color: rgb(0, 0, 0),
+      });
+    } else if (data.als_attended === 'A&E Elementary') {
+      page2.drawSquare({
+        x: 284,
+        y: 331,
+        size: 10,
+        rotate: pdfdegrees(-90),
+        color: rgb(0, 0, 0),
+      });
+    } else if (data.als_attended === 'A&E Secondary') {
+      page2.drawSquare({
+        x: 169.5,
+        y: 318,
+        size: 10,
+        rotate: pdfdegrees(-90),
+        color: rgb(0, 0, 0),
+      });
+    } else if (data.als_attended === 'ALS Senior High') {
+      page2.drawSquare({
+        x: 169.5,
+        y: 331,
+        size: 10,
+        rotate: pdfdegrees(-90),
+        color: rgb(0, 0, 0),
+      });
+    }
+  }
+
+  // Completed Program
+  if (data.complete_program === 'Yes') {
+    page2.drawSquare({
+      x: 180.5,
+      y: 346,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.complete_program || data.complete_program === '') {
+    page2.drawSquare({
+      x: 142.5,
+      y: 346.5,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+    page2.drawText(data.complete_program.toUpperCase(), {
+      x: 310,
+      y: 374,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // KMS from home
+  if (data.kms) {
+    page2.drawText(data.kms.toString().toUpperCase(), {
+      x: 310,
+      y: 410,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // Hours from home
+  if (data.hour) {
+    page2.drawText(data.hour.toString().toUpperCase(), {
+      x: 190,
+      y: 410,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // Transportation
+  const transportationStr = (data.transportation || '').toUpperCase().replace(/\s/g, ' ');
+
+  if (transportationStr === 'WALKING') {
+    page2.drawSquare({
+      x: 521,
+      y: 443,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (transportationStr === 'MOTORCYCLE') {
+    page2.drawSquare({
+      x: 475,
+      y: 443,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (transportationStr === 'BICYCLE') {
+    page2.drawSquare({
+      x: 420,
+      y: 443,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+  } else if (transportationStr && transportationStr !== 'NONE') {
+    page2.drawSquare({
+      x: 373,
+      y: 443,
+      size: 10,
+      rotate: pdfdegrees(-90),
+      color: rgb(0, 0, 0),
+    });
+    page2.drawText(transportationStr, {
+      x: 270,
+      y: 439,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  // Day and Time
+  if (data.day === 'Monday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 530,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Tuesday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 470,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Wednesday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 410,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Thursday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 335,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Friday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 270,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Saturday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 200,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  } else if (data.day === 'Sunday' && data.time) {
+    page2.drawText(data.time.toString().toUpperCase(), {
+      x: 135,
+      y: 485,
+      size: 8,
+      font: font,
+      rotate: pdfdegrees(-180),
+      color: rgb(0, 0, 0),
+    });
+  }
+
+  if (data.distanceLearning && data.distanceLearning.length > 0) {
+    (data.distanceLearning as string[]).forEach((option) => {
+      switch (option) {
+        case 'Blended (Combination)':
+          page2.drawSquare({
+            x: 523,
+            y: 562,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Educational Television':
+          page2.drawSquare({
+            x: 522.5,
+            y: 579,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Homeschooling':
+          page2.drawSquare({
+            x: 393,
+            y: 562,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Modular (Digital)':
+          page2.drawSquare({
+            x: 393,
+            y: 579,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Modular (Print)':
+          page2.drawSquare({
+            x: 293,
+            y: 563,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Online':
+          page2.drawSquare({
+            x: 293,
+            y: 579,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+        case 'Radio-Based Television':
+          page2.drawSquare({
+            x: 189,
+            y: 562,
+            size: 9,
+            borderWidth: 1,
+            borderColor: rgb(0, 0, 0),
+            color: rgb(0, 0, 0),
+            rotate: pdfdegrees(-90),
+          });
+          break;
+      }
     });
   }
 

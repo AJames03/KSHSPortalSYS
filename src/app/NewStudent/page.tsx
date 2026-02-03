@@ -241,7 +241,7 @@ const initialFormData: FormDataType = {
     rlLastSYComplete: "",
     rlLastSchoolAtt: "",
     rlSchoolID: "",
-    semester: "",
+    semester: "1st",
     track: "",
     strand: "",
   },
